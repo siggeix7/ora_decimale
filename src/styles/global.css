@@ -360,6 +360,68 @@ body[data-decimal-display="digital"] #decimal-digital {
   min-width: 0;
 }
 
+.normal-clock-layout {
+  margin: auto 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: clamp(10px, 2vw, 24px);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+body[data-normal-display="digital"] .normal-clock-layout {
+  grid-template-columns: 1fr;
+}
+
+body[data-normal-display="analog"] .normal-clock-layout {
+  grid-template-columns: 1fr;
+}
+
+body[data-normal-display="digital"] #normal-analog,
+body[data-normal-display="analog"] #normal-digital {
+  display: none;
+}
+
+.normal-clock-layout .clock-value {
+  margin: 0;
+  font-size: clamp(2.8rem, 5.4vw, 6.5rem);
+}
+
+body[data-normal-display="digital"] .normal-clock-layout .clock-value {
+  font-size: clamp(4rem, 8.1vw, 9.6rem);
+}
+
+body[data-normal-display="digital"] #normal-digital {
+  text-align: center;
+}
+
+.normal-digital {
+  min-width: 0;
+}
+
+.normal-analog {
+  width: clamp(120px, 14vw, 172px);
+  aspect-ratio: 1;
+  padding: 8px;
+  border: 1px solid var(--soft-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.18);
+}
+
+body[data-normal-display="analog"] .normal-analog {
+  width: clamp(180px, 24vw, 320px);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.normal-analog svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .decimal-analog {
   width: clamp(120px, 14vw, 172px);
   aspect-ratio: 1;
@@ -427,6 +489,21 @@ body[data-decimal-display="analog"] .decimal-analog {
 }
 
 .second-hand {
+  stroke: var(--warm);
+  stroke-width: 2;
+}
+
+.normal-hour-hand {
+  stroke: var(--heading);
+  stroke-width: 5.5;
+}
+
+.normal-minute-hand {
+  stroke: var(--accent);
+  stroke-width: 3.5;
+}
+
+.normal-second-hand {
   stroke: var(--warm);
   stroke-width: 2;
 }
@@ -970,11 +1047,13 @@ code {
     font-size: clamp(3.45rem, 15.4vw, 6.9rem);
   }
 
-  .decimal-clock-layout {
+  .decimal-clock-layout,
+  .normal-clock-layout {
     grid-template-columns: 1fr;
   }
 
-  .decimal-analog {
+  .decimal-analog,
+  .normal-analog {
     width: min(160px, 48vw);
   }
 

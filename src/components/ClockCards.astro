@@ -6,25 +6,57 @@ function polar(angleDeg: number, radius: number) {
   return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
 }
 
-let ticks: string[] = [];
+/* --- Decimal ticks (100 marks every 3.6°) --- */
+let decimalTicks: string[] = [];
 for (let i = 0; i < 100; i++) {
   const a = i * 3.6;
   const r = i % 10 === 0 ? rLong : rShort;
   const s = polar(a, r);
   const e = polar(a, rOuter);
-  ticks.push(`M${s.x.toFixed(2)} ${s.y.toFixed(2)} L${e.x.toFixed(2)} ${e.y.toFixed(2)}`);
+  decimalTicks.push(`M${s.x.toFixed(2)} ${s.y.toFixed(2)} L${e.x.toFixed(2)} ${e.y.toFixed(2)}`);
 }
-const ticksD = ticks.join("");
+const decimalTicksD = decimalTicks.join("");
+
+/* --- Normal ticks (60 marks every 6°, major at 0/30/60/…) --- */
+let normalTicks: string[] = [];
+for (let i = 0; i < 60; i++) {
+  const a = i * 6;
+  const r = i % 5 === 0 ? rLong : rShort;
+  const s = polar(a, r);
+  const e = polar(a, rOuter);
+  normalTicks.push(`M${s.x.toFixed(2)} ${s.y.toFixed(2)} L${e.x.toFixed(2)} ${e.y.toFixed(2)}`);
+}
+const normalTicksD = normalTicks.join("");
 ---
 <section class="clocks" aria-label="Orologi">
-  <article class="clock-card normal-card">
+  <article class="clock-card normal-card" id="normal-card">
     <div class="clock-header">
       <div>
         <p class="clock-label">Ora normale</p>
         <p class="clock-subtitle">24 ore, 60 minuti, 60 secondi</p>
       </div>
     </div>
-    <time id="normal-clock" class="clock-value" datetime="00:00:00">00:00:00</time>
+    <div class="normal-clock-layout">
+      <div class="normal-digital" id="normal-digital">
+        <time id="normal-clock" class="clock-value" datetime="00:00:00">00:00:00</time>
+      </div>
+      <div class="normal-analog" id="normal-analog" aria-label="Quadrante analogico classico">
+        <svg viewBox="0 0 200 200" role="img">
+          <circle class="analog-ring" cx="100" cy="100" r="86" />
+          <path class="analog-ticks" d={normalTicksD} />
+          <circle class="analog-inner" cx="100" cy="100" r="5.5" />
+          {[1,2,3,4,5,6,7,8,9,10,11,12].map(n => {
+            const rad = (n * 30 - 90) * Math.PI / 180;
+            const x = 100 + 66 * Math.cos(rad);
+            const y = 100 + 66 * Math.sin(rad);
+            return <text x={x.toFixed(0)} y={y.toFixed(0)}>{n}</text>;
+          })}
+          <g id="normal-hour-hand" class="analog-hand-group"><line class="analog-hand normal-hour-hand" x1="100" y1="108" x2="100" y2="62" /></g>
+          <g id="normal-minute-hand" class="analog-hand-group"><line class="analog-hand normal-minute-hand" x1="100" y1="108" x2="100" y2="32" /></g>
+          <g id="normal-second-hand" class="analog-hand-group"><line class="analog-hand normal-second-hand" x1="100" y1="112" x2="100" y2="22" /></g>
+        </svg>
+      </div>
+    </div>
     <p id="normal-date" class="clock-note">--</p>
     <p id="timezone-note" class="clock-note subtle-note">Fuso orario: --</p>
   </article>
@@ -43,7 +75,7 @@ const ticksD = ticks.join("");
       <div class="decimal-analog" id="decimal-analog" aria-label="Quadrante analogico decimale">
         <svg viewBox="0 0 200 200" role="img">
           <circle class="analog-ring" cx="100" cy="100" r="86" />
-          <path class="analog-ticks" d={ticksD} />
+          <path class="analog-ticks" d={decimalTicksD} />
           <circle class="analog-inner" cx="100" cy="100" r="5.5" />
           {[0,1,2,3,4,5,6,7,8,9].map(n => {
             const rad = (n * 36 - 90) * Math.PI / 180;
