@@ -75,6 +75,7 @@ function isClockDisplayMode(value: string): value is ClockDisplayMode {
 }
 
 const normalClock = query<HTMLTimeElement>("#normal-clock");
+const heroLiveTime = query<HTMLTimeElement>("#hero-live-time");
 const normalDate = query<HTMLElement>("#normal-date");
 const decimalClock = query<HTMLTimeElement>("#decimal-clock");
 const timezoneNote = query<HTMLElement>("#timezone-note");
@@ -492,6 +493,8 @@ function updateClocks(): void {
 
   normalClock.textContent = normalTime;
   normalClock.dateTime = normalTime;
+  heroLiveTime.textContent = normalTime;
+  heroLiveTime.dateTime = normalTime;
   normalDate.textContent = dateFormatter.format(now);
   decimalClock.textContent = decimalText;
   decimalClock.dateTime = formatDecimalTime(decimalTime.wholeSeconds);
