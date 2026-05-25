@@ -173,9 +173,21 @@ const decimalInputs = {
 };
 
 let conversionHistory: SavedConversion[] = readHistory();
+let clockTimer: number | undefined;
 
 function getRoundingMode(): RoundingMode {
   return isRoundingMode(roundingMode.value) ? roundingMode.value : "nearest";
+}
+
+function setResultAnnouncements(enabled: boolean): void {
+  const liveValue = enabled ? "polite" : "off";
+  normalToDecimalResult.setAttribute("aria-live", liveValue);
+  decimalToNormalResult.setAttribute("aria-live", liveValue);
+}
+
+function setLiveSyncEnabled(enabled: boolean): void {
+  liveSync.checked = enabled;
+  setResultAnnouncements(!enabled);
 }
 
 function applyDisplayPreference(persist = true): void {
@@ -279,16 +291,19 @@ function getErrorMessage(error: unknown): string {
 }
 
 function convertNormalFieldsToDecimal(): void {
+  setLiveSyncEnabled(false);
+
   try {
     showNormalConversion(parseNormalFields(), true);
   } catch (error) {
     normalToDecimalResult.textContent = "--:--:--";
     normalToDecimalError.textContent = getErrorMessage(error);
   }
-  liveSync.checked = false;
 }
 
 function convertNormalCompactToDecimal(): void {
+  setLiveSyncEnabled(false);
+
   try {
     const normalSeconds = parseNormalCompact();
     setNormalFields(normalSeconds);
@@ -297,20 +312,22 @@ function convertNormalCompactToDecimal(): void {
     normalToDecimalResult.textContent = "--:--:--";
     normalToDecimalError.textContent = getErrorMessage(error);
   }
-  liveSync.checked = false;
 }
 
 function convertDecimalFieldsToNormal(): void {
+  setLiveSyncEnabled(false);
+
   try {
     showDecimalConversion(parseDecimalFields(), true);
   } catch (error) {
     decimalToNormalResult.textContent = "--:--:--";
     decimalToNormalError.textContent = getErrorMessage(error);
   }
-  liveSync.checked = false;
 }
 
 function convertDecimalCompactToNormal(): void {
+  setLiveSyncEnabled(false);
+
   try {
     const decimalSeconds = parseDecimalCompact();
     setDecimalFields(decimalSeconds);
@@ -319,36 +336,33 @@ function convertDecimalCompactToNormal(): void {
     decimalToNormalResult.textContent = "--:--:--";
     decimalToNormalError.textContent = getErrorMessage(error);
   }
-  liveSync.checked = false;
 }
 
 function applyNormalPreset(value: string): void {
+  const isLivePreset = value === "now";
   const normalSeconds = value === "now"
     ? getCurrentNormalSeconds()
     : normalPartsToSeconds(...parseTimeText(value, "HH:MM:SS"));
 
+  setLiveSyncEnabled(isLivePreset);
   setNormalFields(normalSeconds);
   showNormalConversion(normalSeconds, false);
-  if (value === "now") {
-    liveSync.checked = true;
+  if (isLivePreset) {
     updateClocks();
-  } else {
-    liveSync.checked = false;
   }
 }
 
 function applyDecimalPreset(value: string): void {
+  const isLivePreset = value === "now";
   const decimalSeconds = value === "now"
     ? normalSecondsToDecimalSeconds(getCurrentNormalSeconds(), getRoundingMode())
     : decimalPartsToSeconds(...parseTimeText(value, "H:MM:SS"));
 
+  setLiveSyncEnabled(isLivePreset);
   setDecimalFields(decimalSeconds);
   showDecimalConversion(decimalSeconds, false);
-  if (value === "now") {
-    liveSync.checked = true;
+  if (isLivePreset) {
     updateClocks();
-  } else {
-    liveSync.checked = false;
   }
 }
 
@@ -357,11 +371,35 @@ function setActionStatus(message: string): void {
 }
 
 async function copyText(text: string): Promise<void> {
-  if (!navigator.clipboard) {
-    throw new Error("error.clipboard");
+  if (navigator.clipboard) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return;
+    } catch {
+      // Prova il fallback per browser o contesti che espongono l'API ma negano writeText.
+    }
   }
 
-  await navigator.clipboard.writeText(text);
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.setAttribute("readonly", "");
+  textArea.style.position = "fixed";
+  textArea.style.opacity = "0";
+  document.body.append(textArea);
+  textArea.select();
+
+  let copied = false;
+  try {
+    copied = document.execCommand("copy");
+  } catch {
+    copied = false;
+  } finally {
+    textArea.remove();
+  }
+
+  if (!copied) {
+    throw new Error("error.clipboard");
+  }
 }
 
 async function copyResult(resultId: string): Promise<void> {
@@ -432,9 +470,11 @@ function writeHistory(): void {
 
 function renderHistory(): void {
   conversionHistoryList.replaceChildren();
+  clearHistory.disabled = conversionHistory.length === 0;
 
   if (conversionHistory.length === 0) {
     const emptyItem = document.createElement("li");
+    emptyItem.className = "history-empty";
     emptyItem.textContent = t("converter.history.empty");
     conversionHistoryList.append(emptyItem);
     return;
@@ -445,7 +485,12 @@ function renderHistory(): void {
     const direction = document.createElement("span");
     const value = document.createElement("span");
     const savedAt = document.createElement("span");
+    const loadItem = () => loadHistoryItem(item);
 
+    listItem.className = "history-entry";
+    listItem.tabIndex = 0;
+    listItem.setAttribute("role", "button");
+    listItem.setAttribute("aria-label", `${t("converter.history.click")}: ${item.source} -> ${item.result}`);
     direction.className = "history-direction";
     value.className = "history-value";
     savedAt.className = "history-time";
@@ -455,9 +500,13 @@ function renderHistory(): void {
     value.textContent = `${item.source} → ${item.result}`;
     savedAt.textContent = formatters.historyTime.format(new Date(item.savedAt));
 
-    listItem.style.cursor = "pointer";
     listItem.title = t("converter.history.click");
-    listItem.addEventListener("click", () => loadHistoryItem(item));
+    listItem.addEventListener("click", loadItem);
+    listItem.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      loadItem();
+    });
 
     listItem.append(direction, value, savedAt);
     conversionHistoryList.append(listItem);
@@ -475,13 +524,22 @@ function saveConversion(direction: ConversionDirection): void {
     return;
   }
 
-  conversionHistory = [{ direction, source, result, savedAt: new Date().toISOString() }, ...conversionHistory].slice(0, 8);
+  const nextItem = { direction, source, result, savedAt: new Date().toISOString() };
+  conversionHistory = [
+    nextItem,
+    ...conversionHistory.filter((item) => item.direction !== direction || item.source !== source || item.result !== result),
+  ].slice(0, 8);
   writeHistory();
   renderHistory();
   setActionStatus(t("converter.status.saved"));
 }
 
 function clearConversionHistory(): void {
+  if (conversionHistory.length === 0) {
+    setActionStatus(t("converter.status.history_empty"));
+    return;
+  }
+
   conversionHistory = [];
   writeHistory();
   renderHistory();
@@ -506,11 +564,17 @@ function updateDayProgress(date: Date): void {
   const fraction = Math.min(elapsedMilliseconds / dayMilliseconds, 1);
   const percent = fraction * 100;
   const remainingSeconds = Math.max(0, Math.ceil((dayMilliseconds - elapsedMilliseconds) / 1000));
+  const percentText = `${formatters.percent.format(percent)}%`;
+  const remainingText = formatNormalTime(remainingSeconds);
 
-  dayPercent.textContent = `${formatters.percent.format(percent)}%`;
+  dayPercent.textContent = percentText;
   dayDecimalFraction.textContent = formatters.fraction.format(fraction);
-  dayRemaining.textContent = formatNormalTime(remainingSeconds);
+  dayRemaining.textContent = remainingText;
   dayProgressbar.setAttribute("aria-valuenow", percent.toFixed(3));
+  dayProgressbar.setAttribute(
+    "aria-valuetext",
+    t("progress.aria_value").replace("{percent}", percentText).replace("{remaining}", remainingText),
+  );
   dayProgressFill.style.width = `${percent}%`;
   progressRingFill.style.strokeDashoffset = String(201.06 * (1 - fraction));
 }
@@ -574,6 +638,17 @@ function updateClocks(): void {
   }
 }
 
+function startClockTimer(): void {
+  if (clockTimer !== undefined) return;
+  clockTimer = window.setInterval(updateClocks, 200);
+}
+
+function stopClockTimer(): void {
+  if (clockTimer === undefined) return;
+  window.clearInterval(clockTimer);
+  clockTimer = undefined;
+}
+
 function initializePreferences(): void {
   const storedClockDisplay = getStoredValue(storageKeys.clockDisplay, "digital");
   const storedRounding = getStoredValue(storageKeys.rounding, "nearest");
@@ -581,6 +656,7 @@ function initializePreferences(): void {
   clockDisplay.value = isClockDisplayMode(storedClockDisplay) ? storedClockDisplay : "digital";
   roundingMode.value = isRoundingMode(storedRounding) ? storedRounding : "nearest";
 
+  setResultAnnouncements(!liveSync.checked);
   applyDisplayPreference(false);
 }
 
@@ -600,6 +676,7 @@ function initializeEventListeners(): void {
   roundingMode.addEventListener("change", () => {
     setStoredValue(storageKeys.rounding, roundingMode.value);
     if (liveSync.checked) {
+      setResultAnnouncements(false);
       updateClocks();
     } else {
       convertNormalFieldsToDecimal();
@@ -609,6 +686,7 @@ function initializeEventListeners(): void {
   });
   clockDisplay.addEventListener("change", applyDisplayPreference);
   liveSync.addEventListener("change", () => {
+    setResultAnnouncements(!liveSync.checked);
     if (liveSync.checked) {
       updateClocks();
     }
@@ -626,7 +704,7 @@ function initializeEventListeners(): void {
     button.addEventListener("click", () => {
       applyNormalPreset(button.dataset.exampleNormal ?? "12:00:00");
       applyDecimalPreset(button.dataset.exampleDecimal ?? "5:00:00");
-      liveSync.checked = false;
+      setLiveSyncEnabled(false);
       setActionStatus(t("converter.status.example"));
     });
   }
@@ -651,8 +729,11 @@ function initializeEventListeners(): void {
 
   clearHistory.addEventListener("click", clearConversionHistory);
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) {
+    if (document.hidden) {
+      stopClockTimer();
+    } else {
       updateClocks();
+      startClockTimer();
     }
   });
 }
@@ -677,6 +758,7 @@ function initializeTabs(): void {
       const isActive = b.dataset.tab === tab;
       b.classList.toggle("active", isActive);
       b.setAttribute("aria-selected", String(isActive));
+      b.tabIndex = isActive ? 0 : -1;
     }
     for (const p of panels) {
       const isActive = p.dataset.panel === tab;
@@ -765,4 +847,4 @@ registerServiceWorker();
 document.body.classList.remove("js-loading");
 document.body.classList.add("js-ready");
 
-setInterval(updateClocks, 200);
+startClockTimer();

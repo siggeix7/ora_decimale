@@ -23,6 +23,18 @@ const description = "Orologio decimale con quadrante analogico, preferenze salva
     <slot />
 
     <noscript>
+      <style>
+        .tab-panel { display: contents !important; }
+        .js-loading .hero,
+        .js-loading .clock-card,
+        .js-loading .day-progress,
+        .js-loading .equivalences,
+        .js-loading .converter,
+        .js-loading .details {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
       <div class="noscript-warning" data-i18n="noscript">
         Attiva JavaScript per aggiornare gli orologi e usare il convertitore.
       </div>

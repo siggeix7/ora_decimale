@@ -44,6 +44,7 @@ export const translations = {
     "progress.elapsed": "Giorno trascorso",
     "progress.fraction": "Frazione decimale",
     "progress.remaining": "Tempo restante",
+    "progress.aria_value": "{percent} del giorno trascorso, {remaining} restanti.",
 
     "equivalences.eyebrow": "Equivalenze",
     "equivalences.title": "Quanto dura un pezzo di tempo decimale",
@@ -113,6 +114,7 @@ export const translations = {
     "converter.status.precision": "Precisione aggiornata.",
     "converter.status.example": "Esempio caricato nei due convertitori.",
     "converter.status.history_cleared": "Storico conversioni svuotato.",
+    "converter.status.history_empty": "Lo storico conversioni e' gia' vuoto.",
     "converter.status.saved": "Conversione salvata nello storico locale.",
     "converter.status.reloaded": "Conversione ricaricata dallo storico.",
     "converter.status.no_valid_copy": "Nessun risultato valido da copiare.",
@@ -207,6 +209,7 @@ export const translations = {
     "progress.elapsed": "Day elapsed",
     "progress.fraction": "Decimal fraction",
     "progress.remaining": "Time remaining",
+    "progress.aria_value": "{percent} of the day elapsed, {remaining} remaining.",
 
     "equivalences.eyebrow": "Equivalences",
     "equivalences.title": "How long a chunk of decimal time is",
@@ -276,6 +279,7 @@ export const translations = {
     "converter.status.precision": "Precision updated.",
     "converter.status.example": "Example loaded into both converters.",
     "converter.status.history_cleared": "Conversion history cleared.",
+    "converter.status.history_empty": "Conversion history is already empty.",
     "converter.status.saved": "Conversion saved to local history.",
     "converter.status.reloaded": "Conversion reloaded from history.",
     "converter.status.no_valid_copy": "No valid result to copy.",
