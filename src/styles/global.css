@@ -610,6 +610,28 @@ body[data-clock-display="digital"] .decimal-analog {
   text-transform: uppercase;
 }
 
+.live-sync {
+  margin-top: 14px;
+  padding: 11px 14px;
+  border: 1px solid var(--soft-border);
+  border-radius: 14px;
+  background: var(--field-bg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted-strong);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+
+.live-sync input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-strong);
+}
+
 .rounding-control {
   display: block;
   margin-top: 18px;

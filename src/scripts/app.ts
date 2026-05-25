@@ -95,6 +95,7 @@ const roundingMode = query<HTMLSelectElement>("#rounding-mode");
 const normalCompactInput = query<HTMLInputElement>("#normal-compact");
 const decimalCompactInput = query<HTMLInputElement>("#decimal-compact");
 const clockDisplay = query<HTMLSelectElement>("#clock-display");
+const liveSync = query<HTMLInputElement>("#live-sync");
 const conversionHistoryList = query<HTMLOListElement>("#conversion-history-list");
 const clearHistory = query<HTMLButtonElement>("#clear-history");
 const decimalHourHand = query<SVGGElement>("#decimal-hour-hand");
@@ -244,18 +245,19 @@ function convertNormalFieldsToDecimal(): void {
     normalToDecimalResult.textContent = "--:--:--";
     normalToDecimalError.textContent = getErrorMessage(error);
   }
+  liveSync.checked = false;
 }
 
 function convertNormalCompactToDecimal(): void {
   try {
     const normalSeconds = parseNormalCompact();
-
     setNormalFields(normalSeconds);
     showNormalConversion(normalSeconds, false);
   } catch (error) {
     normalToDecimalResult.textContent = "--:--:--";
     normalToDecimalError.textContent = getErrorMessage(error);
   }
+  liveSync.checked = false;
 }
 
 function convertDecimalFieldsToNormal(): void {
@@ -265,18 +267,19 @@ function convertDecimalFieldsToNormal(): void {
     decimalToNormalResult.textContent = "--:--:--";
     decimalToNormalError.textContent = getErrorMessage(error);
   }
+  liveSync.checked = false;
 }
 
 function convertDecimalCompactToNormal(): void {
   try {
     const decimalSeconds = parseDecimalCompact();
-
     setDecimalFields(decimalSeconds);
     showDecimalConversion(decimalSeconds, false);
   } catch (error) {
     decimalToNormalResult.textContent = "--:--:--";
     decimalToNormalError.textContent = getErrorMessage(error);
   }
+  liveSync.checked = false;
 }
 
 function applyNormalPreset(value: string): void {
@@ -286,6 +289,7 @@ function applyNormalPreset(value: string): void {
 
   setNormalFields(normalSeconds);
   showNormalConversion(normalSeconds, false);
+  if (value !== "now") liveSync.checked = false;
 }
 
 function applyDecimalPreset(value: string): void {
@@ -295,6 +299,7 @@ function applyDecimalPreset(value: string): void {
 
   setDecimalFields(decimalSeconds);
   showDecimalConversion(decimalSeconds, false);
+  if (value !== "now") liveSync.checked = false;
 }
 
 function setActionStatus(message: string): void {
@@ -502,6 +507,15 @@ function updateClocks(): void {
   updateAnalogClock(decimalTime.wholeSeconds, decimalTime.tenths);
   updateNormalAnalogClock(now);
   updateDayProgress(now);
+
+  if (liveSync.checked) {
+    const ns = getCurrentNormalSeconds();
+    setNormalFields(ns);
+    showNormalConversion(ns, false);
+    const ds = normalSecondsToDecimalSeconds(ns, getRoundingMode());
+    setDecimalFields(ds);
+    showDecimalConversion(ds, false);
+  }
 }
 
 function initializePreferences(): void {
@@ -547,6 +561,7 @@ function initializeEventListeners(): void {
     button.addEventListener("click", () => {
       applyNormalPreset(button.dataset.exampleNormal ?? "12:00:00");
       applyDecimalPreset(button.dataset.exampleDecimal ?? "5:00:00");
+      liveSync.checked = false;
       setActionStatus("Esempio caricato nei due convertitori.");
     });
   }
