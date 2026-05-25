@@ -17,6 +17,7 @@ import {
 } from "./time";
 
 type DecimalDisplayFormat = "digital" | "fraction";
+type DecimalDisplayMode = "both" | "digital" | "analog";
 type ThemeMode = "auto" | "dark" | "light";
 type ConversionDirection = "normal-to-decimal" | "decimal-to-normal";
 
@@ -30,6 +31,7 @@ interface SavedConversion {
 const storageKeys = {
   theme: "ora-decimale:theme",
   decimalFormat: "ora-decimale:decimal-format",
+  decimalDisplay: "ora-decimale:decimal-display",
   showTenths: "ora-decimale:show-tenths",
   rounding: "ora-decimale:rounding",
   history: "ora-decimale:history",
@@ -86,6 +88,10 @@ function isDecimalDisplayFormat(value: string): value is DecimalDisplayFormat {
   return value === "digital" || value === "fraction";
 }
 
+function isDecimalDisplayMode(value: string): value is DecimalDisplayMode {
+  return value === "both" || value === "digital" || value === "analog";
+}
+
 const normalClock = query<HTMLTimeElement>("#normal-clock");
 const normalDate = query<HTMLElement>("#normal-date");
 const decimalClock = query<HTMLTimeElement>("#decimal-clock");
@@ -107,12 +113,13 @@ const normalCompactInput = query<HTMLInputElement>("#normal-compact");
 const decimalCompactInput = query<HTMLInputElement>("#decimal-compact");
 const themeMode = query<HTMLSelectElement>("#theme-mode");
 const decimalFormat = query<HTMLSelectElement>("#decimal-format");
+const decimalDisplay = query<HTMLSelectElement>("#decimal-display");
 const showTenths = query<HTMLInputElement>("#show-tenths");
 const conversionHistoryList = query<HTMLOListElement>("#conversion-history-list");
 const clearHistory = query<HTMLButtonElement>("#clear-history");
-const decimalHourHand = query<SVGLineElement>("#decimal-hour-hand");
-const decimalMinuteHand = query<SVGLineElement>("#decimal-minute-hand");
-const decimalSecondHand = query<SVGLineElement>("#decimal-second-hand");
+const decimalHourHand = query<SVGGElement>("#decimal-hour-hand");
+const decimalMinuteHand = query<SVGGElement>("#decimal-minute-hand");
+const decimalSecondHand = query<SVGGElement>("#decimal-second-hand");
 const themeColorMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
 const colorSchemeQuery = window.matchMedia("(prefers-color-scheme: light)");
 
@@ -182,9 +189,11 @@ function applyTheme(mode: ThemeMode, persist = true): void {
 
 function applyDecimalDisplayPreference(persist = true): void {
   document.body.dataset.decimalFormat = getDecimalDisplayFormat();
+  document.body.dataset.decimalDisplay = decimalDisplay.value;
 
   if (persist) {
     setStoredValue(storageKeys.decimalFormat, decimalFormat.value);
+    setStoredValue(storageKeys.decimalDisplay, decimalDisplay.value);
     setStoredValue(storageKeys.showTenths, String(showTenths.checked));
   }
 
@@ -476,7 +485,7 @@ function updateDayProgress(date: Date): void {
   dayProgressFill.style.width = `${percent}%`;
 }
 
-function setHandRotation(hand: SVGLineElement, angle: number): void {
+function setHandRotation(hand: SVGGElement, angle: number): void {
   hand.setAttribute("transform", `rotate(${angle} 100 100)`);
 }
 
@@ -512,11 +521,13 @@ function updateClocks(): void {
 function initializePreferences(): void {
   const storedTheme = getStoredValue(storageKeys.theme, "auto");
   const storedDecimalFormat = getStoredValue(storageKeys.decimalFormat, "digital");
+  const storedDecimalDisplay = getStoredValue(storageKeys.decimalDisplay, "both");
   const storedTenths = getStoredValue(storageKeys.showTenths, "true");
   const storedRounding = getStoredValue(storageKeys.rounding, "nearest");
 
   themeMode.value = isThemeMode(storedTheme) ? storedTheme : "auto";
   decimalFormat.value = isDecimalDisplayFormat(storedDecimalFormat) ? storedDecimalFormat : "digital";
+  decimalDisplay.value = isDecimalDisplayMode(storedDecimalDisplay) ? storedDecimalDisplay : "both";
   showTenths.checked = storedTenths !== "false";
   roundingMode.value = isRoundingMode(storedRounding) ? storedRounding : "nearest";
 
@@ -545,6 +556,7 @@ function initializeEventListeners(): void {
   });
   themeMode.addEventListener("change", () => applyTheme(themeMode.value as ThemeMode));
   decimalFormat.addEventListener("change", applyDecimalDisplayPreference);
+  decimalDisplay.addEventListener("change", applyDecimalDisplayPreference);
   showTenths.addEventListener("change", applyDecimalDisplayPreference);
   colorSchemeQuery.addEventListener("change", () => {
     if (themeMode.value === "auto") {

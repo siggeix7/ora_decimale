@@ -11,7 +11,7 @@
     <p id="timezone-note" class="clock-note subtle-note">Fuso orario: --</p>
   </article>
 
-  <article class="clock-card decimal-card">
+  <article class="clock-card decimal-card" id="decimal-card">
     <div class="clock-header">
       <div>
         <p class="clock-label">Ora decimale</p>
@@ -19,8 +19,10 @@
       </div>
     </div>
     <div class="decimal-clock-layout">
-      <time id="decimal-clock" class="clock-value" datetime="0:00:00">0:00:00</time>
-      <div class="decimal-analog" aria-label="Quadrante analogico decimale">
+      <div class="decimal-digital" id="decimal-digital">
+        <time id="decimal-clock" class="clock-value" datetime="0:00:00">0:00:00</time>
+      </div>
+      <div class="decimal-analog" id="decimal-analog" aria-label="Quadrante analogico decimale">
         <svg viewBox="0 0 200 200" role="img">
           <circle class="analog-ring" cx="100" cy="100" r="86" />
           <circle class="analog-inner" cx="100" cy="100" r="5" />
@@ -34,9 +36,9 @@
           <text x="30" y="126">7</text>
           <text x="30" y="80">8</text>
           <text x="57" y="42">9</text>
-          <line id="decimal-hour-hand" class="analog-hand hour-hand" x1="100" y1="100" x2="100" y2="58" />
-          <line id="decimal-minute-hand" class="analog-hand minute-hand" x1="100" y1="100" x2="100" y2="34" />
-          <line id="decimal-second-hand" class="analog-hand second-hand" x1="100" y1="100" x2="100" y2="24" />
+          <g id="decimal-hour-hand"><line class="analog-hand hour-hand" x1="100" y1="100" x2="100" y2="58" /></g>
+          <g id="decimal-minute-hand"><line class="analog-hand minute-hand" x1="100" y1="100" x2="100" y2="34" /></g>
+          <g id="decimal-second-hand"><line class="analog-hand second-hand" x1="100" y1="100" x2="100" y2="24" /></g>
         </svg>
       </div>
     </div>
