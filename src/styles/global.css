@@ -80,10 +80,10 @@ button {
   width: min(1480px, calc(100% - 32px));
   min-height: 100vh;
   margin: 0 auto;
-  padding: clamp(28px, 5vw, 56px) 0;
+  padding: clamp(14px, 2.5vw, 32px) 0;
   display: grid;
-  align-content: center;
-  gap: clamp(18px, 2.5vw, 30px);
+  align-content: start;
+  gap: clamp(10px, 1.6vw, 22px);
 }
 
 .hero {
@@ -196,9 +196,9 @@ button {
 
 h1 {
   max-width: 1040px;
-  margin: 8px 0 0;
+  margin: 4px 0 0;
   color: var(--heading);
-  font-size: clamp(1.85rem, 4.5vw, 4.9rem);
+  font-size: clamp(1.65rem, 4vw, 4.2rem);
   line-height: 0.98;
   letter-spacing: -0.055em;
 }
@@ -219,8 +219,8 @@ h1 {
 
 .intro {
   max-width: 660px;
-  margin: 12px 0 0;
-  font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+  margin: 8px 0 0;
+  font-size: clamp(0.74rem, 1vw, 0.9rem);
   line-height: 1.55;
 }
 
@@ -231,8 +231,8 @@ h1 {
 }
 
 .clock-card {
-  min-height: clamp(340px, 40vw, 520px);
-  padding: clamp(22px, 4vw, 48px);
+  min-height: clamp(250px, 28vw, 360px);
+  padding: clamp(16px, 3vw, 32px);
   border: 1px solid var(--soft-border);
   border-radius: 36px;
   box-shadow: 0 34px 90px var(--shadow);
@@ -289,7 +289,7 @@ h1 {
 .clock-value {
   margin: auto 0;
   color: var(--heading);
-  font-size: clamp(4.1rem, 8.4vw, 10rem);
+  font-size: clamp(3.4rem, 7vw, 8.2rem);
   font-variant-numeric: tabular-nums;
   font-weight: 900;
   letter-spacing: -0.09em;
@@ -300,7 +300,7 @@ h1 {
 }
 
 .normal-card .clock-value {
-  font-size: clamp(4rem, 8.1vw, 9.6rem);
+  font-size: clamp(3.3rem, 6.8vw, 7.8rem);
 }
 
 body[data-clock-display="analog"] .normal-digital,
@@ -958,7 +958,7 @@ code {
 
   .clock-value,
   .normal-card .clock-value {
-    font-size: clamp(3.45rem, 15.4vw, 6.9rem);
+    font-size: clamp(2.8rem, 13vw, 5.4rem);
   }
 
   .decimal-clock-layout,
