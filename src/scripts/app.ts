@@ -84,6 +84,7 @@ const dayDecimalFraction = query<HTMLElement>("#day-decimal-fraction");
 const dayRemaining = query<HTMLElement>("#day-remaining");
 const dayProgressbar = query<HTMLElement>("#day-progressbar");
 const dayProgressFill = query<HTMLElement>("#day-progress-fill");
+const progressRingFill = query<SVGCircleElement>("#progress-ring-fill");
 const normalToDecimalForm = query<HTMLFormElement>("#normal-to-decimal-form");
 const decimalToNormalForm = query<HTMLFormElement>("#decimal-to-normal-form");
 const normalToDecimalResult = query<HTMLOutputElement>("#normal-to-decimal-result");
@@ -324,6 +325,9 @@ async function copyResult(resultId: string): Promise<void> {
 
   try {
     await copyText(result.textContent ?? "");
+    result.classList.remove("copy-flash");
+    void result.offsetWidth;
+    result.classList.add("copy-flash");
     setActionStatus(`Copiato: ${result.textContent}`);
   } catch (error) {
     setActionStatus(getErrorMessage(error));
@@ -457,6 +461,7 @@ function updateDayProgress(date: Date): void {
   dayRemaining.textContent = formatNormalTime(remainingSeconds);
   dayProgressbar.setAttribute("aria-valuenow", percent.toFixed(3));
   dayProgressFill.style.width = `${percent}%`;
+  progressRingFill.style.strokeDashoffset = String(201.06 * (1 - fraction));
 }
 
 function setHandRotation(hand: SVGGElement, angle: number): void {

@@ -393,6 +393,15 @@ body[data-clock-display="digital"] .decimal-analog {
   50% { opacity: 0.55; r: 6.5; }
 }
 
+@keyframes copy-flash {
+  0% { background: rgba(143, 179, 255, 0.35); }
+  100% { background: transparent; }
+}
+
+.copy-flash {
+  animation: copy-flash 400ms ease-out;
+}
+
 .decimal-analog text,
 .normal-analog text {
   fill: var(--muted-strong);
@@ -529,6 +538,40 @@ body[data-clock-display="digital"] .decimal-analog {
   border: 1px solid var(--panel-border);
   border-radius: 20px;
   background: var(--field-bg-soft);
+}
+
+.progress-percent-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--panel-border);
+  border-radius: 20px;
+  background: var(--field-bg-soft);
+}
+
+.progress-ring {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.progress-ring-bg {
+  fill: none;
+  stroke: var(--panel-border);
+  stroke-width: 5;
+}
+
+.progress-ring-fill {
+  fill: none;
+  stroke: url(#progressGradient);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 201.06;
+  stroke-dashoffset: 201.06;
+  transform: rotate(-90deg);
+  transform-origin: 40px 40px;
+  transition: stroke-dashoffset 200ms linear;
 }
 
 .progress-metrics span,
