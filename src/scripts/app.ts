@@ -629,6 +629,16 @@ function initializeTabs(): void {
     const hash = location.hash.replace("#", "");
     if (validTabs.includes(hash)) activateTab(hash);
   });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLTextAreaElement) return;
+    const keyMap: Record<string, string> = { "1": "orologio", "2": "storia", "3": "convertitore" };
+    const tab = keyMap[e.key];
+    if (tab) {
+      activateTab(tab);
+      history.replaceState(null, "", `#${tab}`);
+    }
+  });
 }
 
 initializePreferences();
