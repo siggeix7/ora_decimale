@@ -5,8 +5,8 @@ export type I18nKey = keyof typeof translations.it;
 export const translations = {
   it: {
     "hero.eyebrow": "Tempo locale",
-    "hero.title": "Due modi di leggere lo stesso giorno",
-    "hero.intro": "Per il tempo non serve un orologio, bastano le tue dita. L'orologio decimale divide il giorno in 10 ore, ogni ora in 100 minuti e ogni minuto in 100 secondi.",
+    "hero.title": "Per il tempo non serve un orologio, bastano le tue dita",
+    "hero.intro": "L'orologio decimale divide il giorno in 10 ore, ogni ora in 100 minuti e ogni minuto in 100 secondi.",
     "hero.display": "Modalita' orologi",
     "hero.display.digital": "Digitale",
     "hero.display.analog": "Analogico",
@@ -139,8 +139,8 @@ export const translations = {
 
   en: {
     "hero.eyebrow": "Local time",
-    "hero.title": "Two ways to read the same day",
-    "hero.intro": "To tell the time you don't need a clock, just your fingers. The decimal clock divides the day into 10 hours, each hour into 100 minutes and each minute into 100 seconds.",
+    "hero.title": "To tell the time you don't need a clock, just your fingers",
+    "hero.intro": "The decimal clock divides the day into 10 hours, each hour into 100 minutes and each minute into 100 seconds.",
     "hero.display": "Clock mode",
     "hero.display.digital": "Digital",
     "hero.display.analog": "Analog",
