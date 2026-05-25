@@ -86,16 +86,56 @@ button {
 
 .page {
   width: min(1480px, calc(100% - 32px));
-  min-height: 100vh;
   margin: 0 auto;
-  padding: clamp(14px, 2.5vw, 32px) 0;
+  padding: 10px 0 14px;
   display: grid;
   align-content: start;
-  gap: clamp(10px, 1.6vw, 22px);
+  gap: 10px;
 }
 
 .hero {
   max-width: 980px;
+}
+
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-controls {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.hero-display {
+  padding: 9px 14px;
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  color: var(--muted-strong);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+.hero-display select {
+  margin-top: 4px;
+  padding: 7px 10px;
+  border: 1px solid var(--soft-border);
+  border-radius: 12px;
+  background: var(--field-bg);
+  color: var(--heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  outline: none;
+  text-transform: none;
 }
 
 .hero-top {
@@ -213,12 +253,11 @@ h1 {
   max-width: 1040px;
   margin: 4px 0 0;
   color: var(--heading);
-  font-size: clamp(1.65rem, 4vw, 4.2rem);
-  line-height: 0.98;
-  letter-spacing: -0.055em;
+  font-size: clamp(1.45rem, 3.5vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.05em;
 }
 
-.intro,
 .day-progress-heading p,
 .equivalences-heading p,
 .equivalence-grid p,
@@ -232,13 +271,6 @@ h1 {
   color: var(--muted);
 }
 
-.intro {
-  max-width: 660px;
-  margin: 8px 0 0;
-  font-size: clamp(0.74rem, 1vw, 0.9rem);
-  line-height: 1.55;
-}
-
 .clocks {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -246,11 +278,11 @@ h1 {
 }
 
 .clock-card {
-  min-height: clamp(250px, 28vw, 360px);
-  padding: clamp(16px, 3vw, 32px);
+  min-height: clamp(200px, 22vw, 280px);
+  padding: clamp(12px, 2vw, 24px);
   border: 1px solid var(--soft-border);
-  border-radius: 36px;
-  box-shadow: 0 34px 90px var(--shadow);
+  border-radius: 32px;
+  box-shadow: 0 24px 60px var(--shadow);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -472,18 +504,18 @@ body[data-clock-display="digital"] .decimal-analog {
   color: var(--muted);
 }
 
-.day-progress,
+.day-progress {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
 .equivalences {
   display: grid;
-  grid-template-columns: 0.64fr 1.36fr;
+  grid-template-columns: 0.58fr 1.42fr;
   gap: clamp(14px, 2vw, 24px);
 }
 
-.equivalences {
-  grid-template-columns: 0.58fr 1.42fr;
-}
-
-.day-progress-heading,
 .day-progress-panel,
 .equivalences-heading,
 .equivalence-grid article,
@@ -496,14 +528,20 @@ body[data-clock-display="digital"] .decimal-analog {
   backdrop-filter: blur(18px);
 }
 
-.day-progress-heading,
+.day-progress-panel {
+  padding: 12px 18px;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 14px;
+  align-items: center;
+}
+
 .equivalences-heading,
 .converter-heading,
 .conversion-history {
   padding: clamp(20px, 2.4vw, 32px);
 }
 
-.day-progress-heading h2,
 .equivalences-heading h2,
 .converter-heading h2 {
   max-width: 560px;
@@ -526,39 +564,30 @@ body[data-clock-display="digital"] .decimal-analog {
   line-height: 1.58;
 }
 
-.day-progress-panel {
-  padding: clamp(18px, 2vw, 28px);
-  display: grid;
-  align-content: center;
-  gap: 18px;
-}
-
 .progress-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  display: contents;
 }
 
 .progress-metrics article {
-  padding: 16px;
+  padding: 8px 12px;
   border: 1px solid var(--panel-border);
-  border-radius: 20px;
+  border-radius: 14px;
   background: var(--field-bg-soft);
 }
 
 .progress-percent-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px;
+  gap: 10px;
+  padding: 8px 12px;
   border: 1px solid var(--panel-border);
-  border-radius: 20px;
+  border-radius: 14px;
   background: var(--field-bg-soft);
 }
 
 .progress-ring {
-  width: 60px;
-  height: 60px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
 }
 
@@ -593,9 +622,9 @@ body[data-clock-display="digital"] .decimal-analog {
 
 .progress-metrics strong {
   display: block;
-  margin-top: 6px;
+  margin-top: 3px;
   color: var(--heading);
-  font-size: clamp(1.55rem, 3vw, 3.2rem);
+  font-size: clamp(1.2rem, 2.2vw, 2rem);
   font-variant-numeric: tabular-nums;
   font-weight: 900;
   letter-spacing: -0.06em;
@@ -603,8 +632,8 @@ body[data-clock-display="digital"] .decimal-analog {
 }
 
 .progress-track {
-  height: 18px;
-  padding: 4px;
+  height: 14px;
+  padding: 3px;
   border: 1px solid var(--soft-border);
   border-radius: 999px;
   background: var(--field-bg-soft);
