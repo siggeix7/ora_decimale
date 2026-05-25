@@ -1,3 +1,21 @@
+---
+const cx = 100; const cy = 100; const rOuter = 86; const rShort = 78; const rLong = 72;
+
+function polar(angleDeg: number, radius: number) {
+  const rad = (angleDeg - 90) * Math.PI / 180;
+  return { x: cx + radius * Math.cos(rad), y: cy + radius * Math.sin(rad) };
+}
+
+let ticks: string[] = [];
+for (let i = 0; i < 100; i++) {
+  const a = i * 3.6;
+  const r = i % 10 === 0 ? rLong : rShort;
+  const s = polar(a, r);
+  const e = polar(a, rOuter);
+  ticks.push(`M${s.x.toFixed(2)} ${s.y.toFixed(2)} L${e.x.toFixed(2)} ${e.y.toFixed(2)}`);
+}
+const ticksD = ticks.join("");
+---
 <section class="clocks" aria-label="Orologi">
   <article class="clock-card normal-card">
     <div class="clock-header">
@@ -25,20 +43,17 @@
       <div class="decimal-analog" id="decimal-analog" aria-label="Quadrante analogico decimale">
         <svg viewBox="0 0 200 200" role="img">
           <circle class="analog-ring" cx="100" cy="100" r="86" />
-          <circle class="analog-inner" cx="100" cy="100" r="5" />
-          <text x="100" y="28">0</text>
-          <text x="143" y="42">1</text>
-          <text x="170" y="80">2</text>
-          <text x="170" y="126">3</text>
-          <text x="143" y="164">4</text>
-          <text x="100" y="178">5</text>
-          <text x="57" y="164">6</text>
-          <text x="30" y="126">7</text>
-          <text x="30" y="80">8</text>
-          <text x="57" y="42">9</text>
-          <g id="decimal-hour-hand"><line class="analog-hand hour-hand" x1="100" y1="100" x2="100" y2="58" /></g>
-          <g id="decimal-minute-hand"><line class="analog-hand minute-hand" x1="100" y1="100" x2="100" y2="34" /></g>
-          <g id="decimal-second-hand"><line class="analog-hand second-hand" x1="100" y1="100" x2="100" y2="24" /></g>
+          <path class="analog-ticks" d={ticksD} />
+          <circle class="analog-inner" cx="100" cy="100" r="5.5" />
+          {[0,1,2,3,4,5,6,7,8,9].map(n => {
+            const rad = (n * 36 - 90) * Math.PI / 180;
+            const x = 100 + 66 * Math.cos(rad);
+            const y = 100 + 66 * Math.sin(rad);
+            return <text x={x.toFixed(0)} y={y.toFixed(0)}>{n}</text>;
+          })}
+          <g id="decimal-hour-hand" class="analog-hand-group"><line class="analog-hand hour-hand" x1="100" y1="108" x2="100" y2="58" /></g>
+          <g id="decimal-minute-hand" class="analog-hand-group"><line class="analog-hand minute-hand" x1="100" y1="108" x2="100" y2="30" /></g>
+          <g id="decimal-second-hand" class="analog-hand-group"><line class="analog-hand second-hand" x1="100" y1="112" x2="100" y2="22" /></g>
         </svg>
       </div>
     </div>

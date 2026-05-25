@@ -388,6 +388,13 @@ body[data-decimal-display="analog"] .decimal-analog {
   stroke-width: 8;
 }
 
+.analog-ticks {
+  fill: none;
+  stroke: var(--muted-strong);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
 .analog-inner {
   fill: var(--heading);
 }
@@ -400,23 +407,28 @@ body[data-decimal-display="analog"] .decimal-analog {
   dominant-baseline: middle;
 }
 
+.analog-hand-group {
+  will-change: transform;
+  transition: transform 200ms linear;
+}
+
 .analog-hand {
   stroke-linecap: round;
 }
 
 .hour-hand {
   stroke: var(--heading);
-  stroke-width: 7;
+  stroke-width: 5.5;
 }
 
 .minute-hand {
   stroke: var(--accent);
-  stroke-width: 4;
+  stroke-width: 3.5;
 }
 
 .second-hand {
   stroke: var(--warm);
-  stroke-width: 2.4;
+  stroke-width: 2;
 }
 
 .clock-note {
@@ -801,6 +813,13 @@ html[data-theme="light"] .converter-error {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 8px 12px;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+#conversion-history-list li:hover {
+  border-color: var(--accent);
+  background: rgba(143, 179, 255, 0.08);
 }
 
 .history-direction,

@@ -442,6 +442,10 @@ function renderHistory(): void {
     value.textContent = `${item.source} -> ${item.result}`;
     savedAt.textContent = historyTimeFormatter.format(new Date(item.savedAt));
 
+    listItem.style.cursor = "pointer";
+    listItem.title = "Clicca per ricaricare questa conversione";
+    listItem.addEventListener("click", () => loadHistoryItem(item));
+
     listItem.append(direction, value, savedAt);
     conversionHistoryList.append(listItem);
   }
@@ -471,6 +475,18 @@ function clearConversionHistory(): void {
   setActionStatus("Storico conversioni svuotato.");
 }
 
+function loadHistoryItem(item: SavedConversion): void {
+  if (item.direction === "normal-to-decimal") {
+    normalCompactInput.value = item.source;
+    convertNormalCompactToDecimal();
+    setActionStatus("Conversione ricaricata dallo storico.");
+  } else {
+    decimalCompactInput.value = item.source;
+    convertDecimalCompactToNormal();
+    setActionStatus("Conversione ricaricata dallo storico.");
+  }
+}
+
 function updateDayProgress(date: Date): void {
   const elapsedMilliseconds = getElapsedMilliseconds(date);
   const dayMilliseconds = NORMAL_SECONDS_IN_DAY * 1000;
@@ -486,7 +502,8 @@ function updateDayProgress(date: Date): void {
 }
 
 function setHandRotation(hand: SVGGElement, angle: number): void {
-  hand.setAttribute("transform", `rotate(${angle} 100 100)`);
+  hand.style.transform = `rotate(${angle}deg)`;
+  hand.style.transformOrigin = "100px 100px";
 }
 
 function updateAnalogClock(wholeSeconds: number, tenths: number): void {
