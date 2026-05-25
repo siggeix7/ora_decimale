@@ -50,7 +50,6 @@ button {
 }
 
 .js-loading .hero,
-.js-loading .preferences,
 .js-loading .clock-card,
 .js-loading .day-progress,
 .js-loading .equivalences,
@@ -61,7 +60,6 @@ button {
 }
 
 .js-ready .hero,
-.js-ready .preferences,
 .js-ready .clock-card,
 .js-ready .day-progress,
 .js-ready .equivalences,
@@ -72,7 +70,6 @@ button {
   transition: opacity 320ms ease, transform 320ms ease;
 }
 
-.js-ready .preferences,
 .js-ready .clock-card:nth-child(2),
 .js-ready .converter-grid,
 .js-ready .day-progress-panel {
@@ -91,6 +88,53 @@ button {
 
 .hero {
   max-width: 980px;
+}
+
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: clamp(16px, 3vw, 32px);
+  flex-wrap: wrap;
+}
+
+.hero-heading {
+  flex: 1 1 360px;
+  min-width: 0;
+}
+
+.hero-display {
+  flex: 0 0 auto;
+  padding: 14px 18px;
+  border: 1px solid var(--panel-border);
+  border-radius: 20px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  color: var(--muted-strong);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero-display select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--soft-border);
+  border-radius: 14px;
+  background: var(--field-bg);
+  color: var(--heading);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  outline: none;
+  text-transform: none;
+}
+
+.hero-display select:focus {
+  border-color: rgba(143, 179, 255, 0.82);
+  box-shadow: 0 0 0 4px rgba(143, 179, 255, 0.12);
 }
 
 .eyebrow,
@@ -131,38 +175,6 @@ h1 {
   margin: 12px 0 0;
   font-size: clamp(0.78rem, 1.1vw, 0.95rem);
   line-height: 1.55;
-}
-
-.preferences {
-  max-width: 320px;
-  padding: 14px 18px;
-  border: 1px solid var(--panel-border);
-  border-radius: 20px;
-  background: var(--panel);
-  backdrop-filter: blur(18px);
-}
-
-.preferences label {
-  color: var(--muted-strong);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.preferences select {
-  width: 100%;
-  margin-top: 6px;
-  padding: 10px 12px;
-  border: 1px solid var(--soft-border);
-  border-radius: 14px;
-  background: var(--field-bg);
-  color: var(--heading);
-  font-size: 0.88rem;
-  font-weight: 800;
-  letter-spacing: 0;
-  outline: none;
-  text-transform: none;
 }
 
 .clocks {
@@ -544,7 +556,6 @@ body[data-clock-display="digital"] .decimal-analog {
   margin-top: 18px;
 }
 
-.preferences select:focus,
 .rounding-control select:focus,
 .compact-field input:focus,
 .fields input:focus {
@@ -867,7 +878,6 @@ code {
 }
 
 @media (max-width: 1080px) {
-  .preferences,
   .day-progress,
   .equivalences,
   .converter {
@@ -890,8 +900,7 @@ code {
   }
 
   .clocks,
-  .converter-grid,
-  .preference-grid {
+  .converter-grid {
     grid-template-columns: 1fr;
   }
 
