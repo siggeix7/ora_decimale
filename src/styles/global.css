@@ -385,7 +385,7 @@ body[data-clock-display="digital"] .decimal-analog {
   border: 1px solid var(--soft-border);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.18), 0 0 40px rgba(143, 179, 255, 0.08);
 }
 
 .normal-analog {
@@ -409,8 +409,9 @@ body[data-clock-display="digital"] .decimal-analog {
 
 .analog-ring {
   fill: none;
-  stroke: var(--soft-border);
-  stroke-width: 8;
+  stroke: var(--muted-strong);
+  stroke-width: 6;
+  opacity: 0.6;
 }
 
 .analog-ticks {

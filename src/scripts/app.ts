@@ -292,7 +292,8 @@ function applyNormalPreset(value: string): void {
 
   setNormalFields(normalSeconds);
   showNormalConversion(normalSeconds, false);
-  if (value !== "now") liveSync.checked = false;
+  if (value === "now") liveSync.checked = true;
+  else liveSync.checked = false;
 }
 
 function applyDecimalPreset(value: string): void {
@@ -302,7 +303,8 @@ function applyDecimalPreset(value: string): void {
 
   setDecimalFields(decimalSeconds);
   showDecimalConversion(decimalSeconds, false);
-  if (value !== "now") liveSync.checked = false;
+  if (value === "now") liveSync.checked = true;
+  else liveSync.checked = false;
 }
 
 function setActionStatus(message: string): void {
@@ -668,8 +670,13 @@ langSwitch.addEventListener("change", () => {
 renderHistory();
 timezoneNote.textContent = getTimeZoneName();
 updateClocks();
-convertNormalFieldsToDecimal();
-convertDecimalFieldsToNormal();
+if (liveSync.checked) {
+  applyNormalPreset("now");
+  applyDecimalPreset("now");
+} else {
+  convertNormalFieldsToDecimal();
+  convertDecimalFieldsToNormal();
+}
 registerServiceWorker();
 
 document.body.classList.remove("js-loading");
