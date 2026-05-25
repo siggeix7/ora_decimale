@@ -9,6 +9,8 @@ Una piccola web app che mostra due orologi affiancati e un convertitore tra i du
 - input compatto `HH:MM:SS`, campi separati, scorciatoie rapide ed esempi cliccabili
 - indicatore live della percentuale di giornata trascorsa
 - pulsanti per copiare un risultato o riusarlo nell'altro convertitore
+- scelta della precisione di conversione: al piu vicino, per difetto o per eccesso
+- equivalenze rapide tra unita decimali e durata classica
 
 Il sito viene servito da Nginx dentro un container Docker ed e' esposto sulla porta `8888`.
 Il container include anche un healthcheck HTTP sulla stessa porta e header HTTP di sicurezza configurati in Nginx.

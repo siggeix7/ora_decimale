@@ -79,6 +79,31 @@
         </div>
       </section>
 
+      <section class="equivalences" aria-labelledby="equivalences-title">
+        <div class="equivalences-heading">
+          <p class="eyebrow">Equivalenze</p>
+          <h2 id="equivalences-title">Quanto dura un pezzo di tempo decimale</h2>
+        </div>
+
+        <div class="equivalence-grid">
+          <article>
+            <span>1 ora decimale</span>
+            <strong>2h 24m</strong>
+            <p>Un decimo della giornata classica.</p>
+          </article>
+          <article>
+            <span>1 minuto decimale</span>
+            <strong>86,4s</strong>
+            <p>Poco piu di un minuto classico.</p>
+          </article>
+          <article>
+            <span>1 secondo decimale</span>
+            <strong>0,864s</strong>
+            <p>Leggermente piu corto del secondo SI.</p>
+          </article>
+        </div>
+      </section>
+
       <section class="converter" aria-labelledby="converter-title">
         <div class="converter-heading">
           <p class="eyebrow">Convertitore</p>
@@ -88,8 +113,16 @@
             Sono supportati anche 24:00:00 e 10:00:00 come fine giornata.
           </p>
           <p class="converter-note">
-            I risultati del convertitore sono arrotondati al secondo piu vicino.
+            Scegli come trattare i decimali quando la conversione non cade su un secondo esatto.
           </p>
+          <label class="rounding-control" for="rounding-mode">
+            Precisione conversione
+            <select id="rounding-mode">
+              <option value="nearest">Arrotonda al piu vicino</option>
+              <option value="floor">Sempre per difetto</option>
+              <option value="ceil">Sempre per eccesso</option>
+            </select>
+          </label>
         </div>
 
         <div class="converter-grid">

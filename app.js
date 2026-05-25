@@ -14,6 +14,7 @@ const decimalToNormalResult = document.querySelector("#decimal-to-normal-result"
 const normalToDecimalError = document.querySelector("#normal-to-decimal-error");
 const decimalToNormalError = document.querySelector("#decimal-to-normal-error");
 const converterActionStatus = document.querySelector("#converter-action-status");
+const roundingMode = document.querySelector("#rounding-mode");
 const normalCompactInput = document.querySelector("#normal-compact");
 const decimalCompactInput = document.querySelector("#decimal-compact");
 
@@ -150,12 +151,24 @@ function parseDecimalCompact() {
   return decimalPartsToSeconds(...parseTimeText(decimalCompactInput.value, "H:MM:SS"));
 }
 
+function roundConvertedValue(value) {
+  if (roundingMode.value === "floor") {
+    return Math.floor(value);
+  }
+
+  if (roundingMode.value === "ceil") {
+    return Math.ceil(value);
+  }
+
+  return Math.round(value);
+}
+
 function normalSecondsToDecimalSeconds(normalSeconds) {
-  return Math.round((normalSeconds / normalSecondsInDay) * decimalSecondsInDay);
+  return roundConvertedValue((normalSeconds / normalSecondsInDay) * decimalSecondsInDay);
 }
 
 function decimalSecondsToNormalSeconds(decimalSeconds) {
-  return Math.round((decimalSeconds / decimalSecondsInDay) * normalSecondsInDay);
+  return roundConvertedValue((decimalSeconds / decimalSecondsInDay) * normalSecondsInDay);
 }
 
 function setNormalFields(totalSeconds) {
@@ -402,6 +415,11 @@ normalCompactInput.addEventListener("input", convertNormalCompactToDecimal);
 decimalCompactInput.addEventListener("input", convertDecimalCompactToNormal);
 normalToDecimalForm.addEventListener("submit", (event) => event.preventDefault());
 decimalToNormalForm.addEventListener("submit", (event) => event.preventDefault());
+roundingMode.addEventListener("change", () => {
+  convertNormalFieldsToDecimal();
+  convertDecimalFieldsToNormal();
+  setActionStatus("Precisione aggiornata.");
+});
 
 for (const button of document.querySelectorAll("[data-normal-preset]")) {
   button.addEventListener("click", () => applyNormalPreset(button.dataset.normalPreset));
