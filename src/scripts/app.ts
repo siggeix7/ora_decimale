@@ -588,19 +588,29 @@ function initializeTabs(): void {
   const buttons = document.querySelectorAll<HTMLElement>(".tab-button");
   const panels = document.querySelectorAll<HTMLElement>(".tab-panel");
 
+  function activateTab(tab: string): void {
+    for (const b of buttons) b.classList.toggle("active", b.dataset.tab === tab);
+    for (const p of panels) p.classList.toggle("active", p.dataset.panel === tab);
+  }
+
   for (const button of buttons) {
     button.addEventListener("click", () => {
       const tab = button.dataset.tab;
       if (!tab) return;
 
-      for (const b of buttons) b.classList.remove("active");
-      button.classList.add("active");
-
-      for (const p of panels) {
-        p.classList.toggle("active", p.dataset.panel === tab);
-      }
+      activateTab(tab);
+      history.replaceState(null, "", `#${tab}`);
     });
   }
+
+  const hashTab = location.hash.replace("#", "");
+  const validTabs = ["orologio", "storia", "convertitore"];
+  activateTab(validTabs.includes(hashTab) ? hashTab : "orologio");
+
+  window.addEventListener("hashchange", () => {
+    const hash = location.hash.replace("#", "");
+    if (validTabs.includes(hash)) activateTab(hash);
+  });
 }
 
 initializePreferences();

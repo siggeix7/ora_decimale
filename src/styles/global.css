@@ -172,8 +172,9 @@ button {
 }
 
 .tab-button.active {
-  background: rgba(143, 179, 255, 0.16);
+  background: linear-gradient(135deg, rgba(143, 179, 255, 0.22), rgba(143, 179, 255, 0.12));
   color: #f5f8ff;
+  box-shadow: inset 0 -2px 0 var(--accent);
 }
 
 .tab-panel {
@@ -245,14 +246,14 @@ h1 {
 
 .clock-card::after {
   content: "";
-  width: 300px;
-  height: 300px;
+  width: 220px;
+  height: 220px;
   border-radius: 999px;
   filter: blur(10px);
-  opacity: 0.32;
+  opacity: 0.28;
   position: absolute;
-  right: -110px;
-  bottom: -135px;
+  right: -90px;
+  bottom: -110px;
 }
 
 .normal-card {
@@ -372,17 +373,22 @@ body[data-clock-display="digital"] .decimal-analog {
   fill: var(--heading);
 }
 
-.decimal-analog text {
+.decimal-analog text,
+.normal-analog text {
   fill: var(--muted-strong);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 900;
   text-anchor: middle;
   dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.55);
+  stroke-width: 3px;
+  stroke-linejoin: round;
 }
 
 .analog-hand-group {
   will-change: transform;
-  transition: transform 200ms linear;
+  transition: transform 150ms linear;
 }
 
 .analog-hand {
