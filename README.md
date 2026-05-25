@@ -1,9 +1,11 @@
 # Ora Decimale
 
-Una piccola web app che mostra due orologi affiancati:
+Una piccola web app che mostra due orologi affiancati e un convertitore tra i due sistemi:
 
 - ora normale, nel formato `HH:MM:SS`
 - ora decimale, dove il giorno e' diviso in 10 ore, ogni ora in 100 minuti e ogni minuto in 100 secondi
+- conversione da orario classico a orario decimale
+- conversione da orario decimale a orario classico
 
 Il sito viene servito da Nginx dentro un container Docker ed e' esposto sulla porta `8888`.
 

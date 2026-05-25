@@ -41,6 +41,75 @@
         </article>
       </section>
 
+      <section class="converter" aria-labelledby="converter-title">
+        <div class="converter-heading">
+          <p class="eyebrow">Convertitore</p>
+          <h2 id="converter-title">Passa da un sistema all'altro</h2>
+          <p>
+            Inserisci un orario e la conversione viene aggiornata subito.
+            Sono supportati anche 24:00:00 e 10:00:00 come fine giornata.
+          </p>
+        </div>
+
+        <div class="converter-grid">
+          <form id="normal-to-decimal-form" class="converter-card">
+            <div class="converter-card-heading">
+              <h3>Classico -> decimale</h3>
+              <p>Da 24 ore a 10 ore decimali.</p>
+            </div>
+
+            <div class="fields" aria-label="Orario classico">
+              <label>
+                Ore
+                <input id="normal-hours" type="number" min="0" max="24" step="1" value="12" inputmode="numeric">
+              </label>
+              <label>
+                Minuti
+                <input id="normal-minutes" type="number" min="0" max="59" step="1" value="0" inputmode="numeric">
+              </label>
+              <label>
+                Secondi
+                <input id="normal-seconds" type="number" min="0" max="59" step="1" value="0" inputmode="numeric">
+              </label>
+            </div>
+
+            <div class="conversion-result">
+              <span>Risultato</span>
+              <output id="normal-to-decimal-result">5:00:00</output>
+            </div>
+            <p id="normal-to-decimal-error" class="converter-error" role="alert"></p>
+          </form>
+
+          <form id="decimal-to-normal-form" class="converter-card">
+            <div class="converter-card-heading">
+              <h3>Decimale -> classico</h3>
+              <p>Da 10 ore decimali a 24 ore.</p>
+            </div>
+
+            <div class="fields" aria-label="Orario decimale">
+              <label>
+                Ore
+                <input id="decimal-hours" type="number" min="0" max="10" step="1" value="5" inputmode="numeric">
+              </label>
+              <label>
+                Minuti
+                <input id="decimal-minutes" type="number" min="0" max="99" step="1" value="0" inputmode="numeric">
+              </label>
+              <label>
+                Secondi
+                <input id="decimal-seconds" type="number" min="0" max="99" step="1" value="0" inputmode="numeric">
+              </label>
+            </div>
+
+            <div class="conversion-result">
+              <span>Risultato</span>
+              <output id="decimal-to-normal-result">12:00:00</output>
+            </div>
+            <p id="decimal-to-normal-error" class="converter-error" role="alert"></p>
+          </form>
+        </div>
+      </section>
+
       <section class="details" aria-labelledby="details-title">
         <div class="section-heading">
           <p class="eyebrow">Confronto</p>
