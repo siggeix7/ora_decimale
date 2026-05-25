@@ -137,6 +137,53 @@ button {
   box-shadow: 0 0 0 4px rgba(143, 179, 255, 0.12);
 }
 
+.tab-nav {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+  width: fit-content;
+}
+
+.tab-button {
+  padding: 12px 28px;
+  border: none;
+  border-right: 1px solid var(--panel-border);
+  background: transparent;
+  color: var(--muted-strong);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.tab-button:last-child {
+  border-right: none;
+}
+
+.tab-button:hover {
+  background: rgba(143, 179, 255, 0.08);
+  color: var(--heading);
+}
+
+.tab-button.active {
+  background: rgba(143, 179, 255, 0.16);
+  color: #f5f8ff;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: contents;
+}
+
 .eyebrow,
 .clock-label {
   margin: 0;
@@ -965,5 +1012,72 @@ code {
 
   .fields {
     grid-template-columns: 1fr;
+  }
+}
+
+.history {
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.history h2 {
+  margin: 0;
+  color: var(--heading);
+  font-size: clamp(1.55rem, 3vw, 2.4rem);
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.history-card {
+  padding: clamp(20px, 2.4vw, 30px);
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+}
+
+.history-card h3 {
+  margin: 0 0 12px;
+  color: var(--heading);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  letter-spacing: -0.02em;
+}
+
+.history-card p {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: clamp(0.82rem, 1vw, 0.92rem);
+  line-height: 1.65;
+}
+
+.history-card p:last-child {
+  margin-bottom: 0;
+}
+
+.history-card em {
+  color: var(--muted-strong);
+  font-style: normal;
+}
+
+.history-source {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-align: right;
+}
+
+.history-source a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.history-source a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 860px) {
+  .tab-button {
+    padding: 12px 16px;
+    font-size: 0.74rem;
   }
 }

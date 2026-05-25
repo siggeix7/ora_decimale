@@ -584,8 +584,28 @@ function registerServiceWorker(): void {
   });
 }
 
+function initializeTabs(): void {
+  const buttons = document.querySelectorAll<HTMLElement>(".tab-button");
+  const panels = document.querySelectorAll<HTMLElement>(".tab-panel");
+
+  for (const button of buttons) {
+    button.addEventListener("click", () => {
+      const tab = button.dataset.tab;
+      if (!tab) return;
+
+      for (const b of buttons) b.classList.remove("active");
+      button.classList.add("active");
+
+      for (const p of panels) {
+        p.classList.toggle("active", p.dataset.panel === tab);
+      }
+    });
+  }
+}
+
 initializePreferences();
 initializeEventListeners();
+initializeTabs();
 renderHistory();
 timezoneNote.textContent = `Fuso orario: ${getTimeZoneName()}`;
 updateClocks();

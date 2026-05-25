@@ -1,8 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
+import TabNav from "../components/TabNav.astro";
 import ClockCards from "../components/ClockCards.astro";
 import DayProgress from "../components/DayProgress.astro";
+import History from "../components/History.astro";
 import Equivalences from "../components/Equivalences.astro";
 import Converter from "../components/Converter.astro";
 import Details from "../components/Details.astro";
@@ -10,10 +12,21 @@ import Details from "../components/Details.astro";
 <BaseLayout>
   <main class="page">
     <Hero />
-    <ClockCards />
-    <DayProgress />
-    <Equivalences />
-    <Converter />
-    <Details />
+    <TabNav />
+
+    <div class="tab-panel active" data-panel="orologio">
+      <ClockCards />
+      <DayProgress />
+    </div>
+
+    <div class="tab-panel" data-panel="storia">
+      <History />
+    </div>
+
+    <div class="tab-panel" data-panel="convertitore">
+      <Equivalences />
+      <Converter />
+      <Details />
+    </div>
   </main>
 </BaseLayout>
