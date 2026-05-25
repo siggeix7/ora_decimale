@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ora decimale</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Tempo locale</p>
+        <h1 id="page-title">Orologio normale e orologio decimale</h1>
+        <p class="intro">
+          Il giorno resta lo stesso, ma l'orologio decimale lo divide in
+          10 ore, ogni ora in 100 minuti e ogni minuto in 100 secondi.
+        </p>
+      </section>
+
+      <section class="clocks" aria-label="Orologi">
+        <article class="clock-card normal-card">
+          <p class="clock-label">Ora normale</p>
+          <time id="normal-clock" class="clock-value" datetime="00:00:00">00:00:00</time>
+          <p id="normal-date" class="clock-note">--</p>
+        </article>
+
+        <article class="clock-card decimal-card">
+          <p class="clock-label">Ora decimale</p>
+          <time id="decimal-clock" class="clock-value" datetime="0:00:00">0:00:00</time>
+          <p class="clock-note">1 giorno = 10:00:00 decimali</p>
+        </article>
+      </section>
+
+      <section class="explanation" aria-label="Conversione">
+        <h2>Come viene calcolata</h2>
+        <p>
+          I secondi passati da mezzanotte vengono trasformati in una frazione
+          del giorno e poi moltiplicati per 100.000 secondi decimali.
+        </p>
+        <code>secondi_decimali = secondi_da_mezzanotte / 86.400 * 100.000</code>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
