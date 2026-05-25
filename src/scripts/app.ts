@@ -17,8 +17,7 @@ import {
 } from "./time";
 
 type DecimalDisplayFormat = "digital" | "fraction";
-type DecimalDisplayMode = "both" | "digital" | "analog";
-type NormalDisplayMode = "both" | "digital" | "analog";
+type ClockDisplayMode = "digital" | "analog";
 type ThemeMode = "auto" | "dark" | "light";
 type ConversionDirection = "normal-to-decimal" | "decimal-to-normal";
 
@@ -32,8 +31,7 @@ interface SavedConversion {
 const storageKeys = {
   theme: "ora-decimale:theme",
   decimalFormat: "ora-decimale:decimal-format",
-  decimalDisplay: "ora-decimale:decimal-display",
-  normalDisplay: "ora-decimale:normal-display",
+  clockDisplay: "ora-decimale:clock-display",
   showTenths: "ora-decimale:show-tenths",
   rounding: "ora-decimale:rounding",
   history: "ora-decimale:history",
@@ -90,12 +88,8 @@ function isDecimalDisplayFormat(value: string): value is DecimalDisplayFormat {
   return value === "digital" || value === "fraction";
 }
 
-function isDecimalDisplayMode(value: string): value is DecimalDisplayMode {
-  return value === "both" || value === "digital" || value === "analog";
-}
-
-function isNormalDisplayMode(value: string): value is NormalDisplayMode {
-  return value === "both" || value === "digital" || value === "analog";
+function isClockDisplayMode(value: string): value is ClockDisplayMode {
+  return value === "digital" || value === "analog";
 }
 
 const normalClock = query<HTMLTimeElement>("#normal-clock");
@@ -119,8 +113,7 @@ const normalCompactInput = query<HTMLInputElement>("#normal-compact");
 const decimalCompactInput = query<HTMLInputElement>("#decimal-compact");
 const themeMode = query<HTMLSelectElement>("#theme-mode");
 const decimalFormat = query<HTMLSelectElement>("#decimal-format");
-const decimalDisplay = query<HTMLSelectElement>("#decimal-display");
-const normalDisplay = query<HTMLSelectElement>("#normal-display");
+const clockDisplay = query<HTMLSelectElement>("#clock-display");
 const showTenths = query<HTMLInputElement>("#show-tenths");
 const conversionHistoryList = query<HTMLOListElement>("#conversion-history-list");
 const clearHistory = query<HTMLButtonElement>("#clear-history");
@@ -199,13 +192,11 @@ function applyTheme(mode: ThemeMode, persist = true): void {
 
 function applyDecimalDisplayPreference(persist = true): void {
   document.body.dataset.decimalFormat = getDecimalDisplayFormat();
-  document.body.dataset.decimalDisplay = decimalDisplay.value;
-  document.body.dataset.normalDisplay = normalDisplay.value;
+  document.body.dataset.clockDisplay = clockDisplay.value;
 
   if (persist) {
     setStoredValue(storageKeys.decimalFormat, decimalFormat.value);
-    setStoredValue(storageKeys.decimalDisplay, decimalDisplay.value);
-    setStoredValue(storageKeys.normalDisplay, normalDisplay.value);
+    setStoredValue(storageKeys.clockDisplay, clockDisplay.value);
     setStoredValue(storageKeys.showTenths, String(showTenths.checked));
   }
 
@@ -566,15 +557,13 @@ function updateClocks(): void {
 function initializePreferences(): void {
   const storedTheme = getStoredValue(storageKeys.theme, "auto");
   const storedDecimalFormat = getStoredValue(storageKeys.decimalFormat, "digital");
-  const storedDecimalDisplay = getStoredValue(storageKeys.decimalDisplay, "both");
-  const storedNormalDisplay = getStoredValue(storageKeys.normalDisplay, "both");
+  const storedClockDisplay = getStoredValue(storageKeys.clockDisplay, "digital");
   const storedTenths = getStoredValue(storageKeys.showTenths, "true");
   const storedRounding = getStoredValue(storageKeys.rounding, "nearest");
 
   themeMode.value = isThemeMode(storedTheme) ? storedTheme : "auto";
   decimalFormat.value = isDecimalDisplayFormat(storedDecimalFormat) ? storedDecimalFormat : "digital";
-  decimalDisplay.value = isDecimalDisplayMode(storedDecimalDisplay) ? storedDecimalDisplay : "both";
-  normalDisplay.value = isNormalDisplayMode(storedNormalDisplay) ? storedNormalDisplay : "both";
+  clockDisplay.value = isClockDisplayMode(storedClockDisplay) ? storedClockDisplay : "digital";
   showTenths.checked = storedTenths !== "false";
   roundingMode.value = isRoundingMode(storedRounding) ? storedRounding : "nearest";
 
@@ -603,8 +592,7 @@ function initializeEventListeners(): void {
   });
   themeMode.addEventListener("change", () => applyTheme(themeMode.value as ThemeMode));
   decimalFormat.addEventListener("change", applyDecimalDisplayPreference);
-  decimalDisplay.addEventListener("change", applyDecimalDisplayPreference);
-  normalDisplay.addEventListener("change", applyDecimalDisplayPreference);
+  clockDisplay.addEventListener("change", applyDecimalDisplayPreference);
   showTenths.addEventListener("change", applyDecimalDisplayPreference);
   colorSchemeQuery.addEventListener("change", () => {
     if (themeMode.value === "auto") {
