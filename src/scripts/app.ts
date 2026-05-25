@@ -616,7 +616,11 @@ function initializeTabs(): void {
   const panels = document.querySelectorAll<HTMLElement>(".tab-panel");
 
   function activateTab(tab: string): void {
-    for (const b of buttons) b.classList.toggle("active", b.dataset.tab === tab);
+    for (const b of buttons) {
+      const isActive = b.dataset.tab === tab;
+      b.classList.toggle("active", isActive);
+      b.setAttribute("aria-selected", String(isActive));
+    }
     for (const p of panels) p.classList.toggle("active", p.dataset.panel === tab);
   }
 
