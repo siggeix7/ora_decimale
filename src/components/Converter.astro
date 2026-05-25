@@ -36,13 +36,13 @@
       </label>
       <p id="normal-format-hint" class="field-hint" data-i18n="converter.normal.hint">Esempio: 18:30:00. Valido da 00:00:00 a 24:00:00.</p>
 
-      <div class="fields" aria-label="Orario classico">
+      <div class="fields" aria-label="Orario classico" data-i18n-aria-label="aria.normal_fields">
         <label for="normal-hours"><span data-i18n="converter.normal.hours">Ore</span><input id="normal-hours" type="number" min="0" max="24" step="1" value="12" inputmode="numeric" aria-describedby="normal-to-decimal-error" /></label>
         <label for="normal-minutes"><span data-i18n="converter.normal.minutes">Minuti</span><input id="normal-minutes" type="number" min="0" max="59" step="1" value="0" inputmode="numeric" aria-describedby="normal-to-decimal-error" /></label>
         <label for="normal-seconds"><span data-i18n="converter.normal.seconds">Secondi</span><input id="normal-seconds" type="number" min="0" max="59" step="1" value="0" inputmode="numeric" aria-describedby="normal-to-decimal-error" /></label>
       </div>
 
-      <div class="quick-actions" aria-label="Scorciatoie orario classico">
+      <div class="quick-actions" aria-label="Scorciatoie orario classico" data-i18n-aria-label="aria.normal_shortcuts">
         <button type="button" data-normal-preset="now" data-i18n="converter.normal.now">Ora attuale</button>
         <button type="button" data-normal-preset="12:00:00" data-i18n="converter.normal.noon">Mezzogiorno</button>
         <button type="button" data-normal-preset="24:00:00" data-i18n="converter.normal.end">Fine giornata</button>
@@ -75,13 +75,13 @@
       </label>
       <p id="decimal-format-hint" class="field-hint" data-i18n="converter.decimal.hint">Esempio: 7:50:00. Valido da 0:00:00 a 10:00:00.</p>
 
-      <div class="fields" aria-label="Orario decimale">
+      <div class="fields" aria-label="Orario decimale" data-i18n-aria-label="aria.decimal_fields">
         <label for="decimal-hours"><span data-i18n="converter.decimal.hours">Ore</span><input id="decimal-hours" type="number" min="0" max="10" step="1" value="5" inputmode="numeric" aria-describedby="decimal-to-normal-error" /></label>
         <label for="decimal-minutes"><span data-i18n="converter.decimal.minutes">Minuti</span><input id="decimal-minutes" type="number" min="0" max="99" step="1" value="0" inputmode="numeric" aria-describedby="decimal-to-normal-error" /></label>
         <label for="decimal-seconds"><span data-i18n="converter.decimal.seconds">Secondi</span><input id="decimal-seconds" type="number" min="0" max="99" step="1" value="0" inputmode="numeric" aria-describedby="decimal-to-normal-error" /></label>
       </div>
 
-      <div class="quick-actions" aria-label="Scorciatoie orario decimale">
+      <div class="quick-actions" aria-label="Scorciatoie orario decimale" data-i18n-aria-label="aria.decimal_shortcuts">
         <button type="button" data-decimal-preset="now" data-i18n="converter.decimal.now">Ora attuale</button>
         <button type="button" data-decimal-preset="5:00:00" data-i18n="converter.decimal.half">Meta' giornata</button>
         <button type="button" data-decimal-preset="10:00:00" data-i18n="converter.decimal.end">Fine giornata</button>
@@ -103,7 +103,7 @@
     </form>
   </div>
 
-  <div class="example-strip" aria-label="Esempi rapidi">
+  <div class="example-strip" aria-label="Esempi rapidi" data-i18n-aria-label="aria.examples">
     <span data-i18n="converter.examples">Esempi rapidi</span>
     <button type="button" data-example-normal="06:00:00" data-example-decimal="2:50:00">06:00 → 2:50:00</button>
     <button type="button" data-example-normal="12:00:00" data-example-decimal="5:00:00">12:00 → 5:00:00</button>

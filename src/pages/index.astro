@@ -14,16 +14,16 @@ import Details from "../components/Details.astro";
     <Hero />
     <TabNav />
 
-    <div class="tab-panel active" data-panel="orologio">
+    <div id="panel-orologio" class="tab-panel active" data-panel="orologio" role="tabpanel" aria-labelledby="tab-orologio">
       <ClockCards />
       <DayProgress />
     </div>
 
-    <div class="tab-panel" data-panel="storia">
+    <div id="panel-storia" class="tab-panel" data-panel="storia" role="tabpanel" aria-labelledby="tab-storia" hidden>
       <History />
     </div>
 
-    <div class="tab-panel" data-panel="convertitore">
+    <div id="panel-convertitore" class="tab-panel" data-panel="convertitore" role="tabpanel" aria-labelledby="tab-convertitore" hidden>
       <Equivalences />
       <Converter />
       <Details />

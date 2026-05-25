@@ -28,7 +28,7 @@ for (let i = 0; i < 60; i++) {
 }
 const normalTicksD = normalTicks.join("");
 ---
-<section class="clocks" aria-label="Orologi">
+<section class="clocks" aria-label="Orologi" data-i18n-aria-label="aria.clocks">
   <article class="clock-card normal-card" id="normal-card">
     <div class="clock-header">
       <div>
@@ -40,8 +40,8 @@ const normalTicksD = normalTicks.join("");
       <div class="normal-digital" id="normal-digital">
         <time id="normal-clock" class="clock-value" datetime="00:00:00">00:00:00</time>
       </div>
-      <div class="normal-analog" id="normal-analog" aria-label="Quadrante analogico classico">
-        <svg viewBox="0 0 200 200" role="img">
+      <div class="normal-analog" id="normal-analog" role="img" aria-label="Quadrante analogico classico" data-i18n-aria-label="aria.normal_dial">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
           <circle class="analog-ring" cx="100" cy="100" r="86" />
           <path class="analog-ticks" d={normalTicksD} />
           <circle class="analog-inner" cx="100" cy="100" r="5.5" />
@@ -72,8 +72,8 @@ const normalTicksD = normalTicks.join("");
       <div class="decimal-digital" id="decimal-digital">
         <time id="decimal-clock" class="clock-value" datetime="0:00:00">0:00:00</time>
       </div>
-      <div class="decimal-analog" id="decimal-analog" aria-label="Quadrante analogico decimale">
-        <svg viewBox="0 0 200 200" role="img">
+      <div class="decimal-analog" id="decimal-analog" role="img" aria-label="Quadrante analogico decimale" data-i18n-aria-label="aria.decimal_dial">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
           <circle class="analog-ring" cx="100" cy="100" r="86" />
           <path class="analog-ticks" d={decimalTicksD} />
           <circle class="analog-inner" cx="100" cy="100" r="5.5" />

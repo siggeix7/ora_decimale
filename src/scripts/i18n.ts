@@ -5,6 +5,7 @@ const LANG_ATTR = "data-i18n";
 const PLACEHOLDER_ATTR = "data-i18n-placeholder";
 const VALUE_ATTR = "data-i18n-value";
 const TITLE_ATTR = "data-i18n-title";
+const ARIA_LABEL_ATTR = "data-i18n-aria-label";
 
 let currentLang: Lang = "it";
 
@@ -54,6 +55,11 @@ function applyTranslations(): void {
   for (const el of document.querySelectorAll<HTMLElement>(`[${TITLE_ATTR}]`)) {
     const key = el.getAttribute(TITLE_ATTR) as I18nKey;
     if (key) el.title = t(key);
+  }
+
+  for (const el of document.querySelectorAll<HTMLElement>(`[${ARIA_LABEL_ATTR}]`)) {
+    const key = el.getAttribute(ARIA_LABEL_ATTR) as I18nKey;
+    if (key) el.setAttribute("aria-label", t(key));
   }
 }
 

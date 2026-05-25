@@ -14,14 +14,14 @@ export function pad(value: number, length = 2): string {
 }
 
 export function getTimeZoneName(): string {
-  return Intl.DateTimeFormat().resolvedOptions().timeZone || "locale del browser";
+  return Intl.DateTimeFormat().resolvedOptions().timeZone || "";
 }
 
 export function parseTimeText(value: string, label: string): [number, number, number] {
   const match = value.trim().match(/^(\d{1,2}):(\d{1,2}):(\d{1,2})$/);
 
   if (!match) {
-    throw new Error(`Usa il formato ${label}, per esempio 12:00:00.`);
+    throw new Error(label === "H:MM:SS" ? "error.format.decimal" : "error.format.normal");
   }
 
   return [Number(match[1]), Number(match[2]), Number(match[3])];
@@ -29,29 +29,29 @@ export function parseTimeText(value: string, label: string): [number, number, nu
 
 export function validateNormalParts(hours: number, minutes: number, seconds: number): void {
   if (![hours, minutes, seconds].every(Number.isInteger)) {
-    throw new Error("Inserisci solo numeri interi.");
+    throw new Error("error.integer");
   }
 
   if (hours < 0 || hours > 24 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
-    throw new Error("Usa ore 0-24, minuti 0-59 e secondi 0-59.");
+    throw new Error("error.normal.range");
   }
 
   if (hours === 24 && (minutes !== 0 || seconds !== 0)) {
-    throw new Error("Dopo 24:00:00 inizia il giorno successivo.");
+    throw new Error("error.normal.end");
   }
 }
 
 export function validateDecimalParts(hours: number, minutes: number, seconds: number): void {
   if (![hours, minutes, seconds].every(Number.isInteger)) {
-    throw new Error("Inserisci solo numeri interi.");
+    throw new Error("error.integer");
   }
 
   if (hours < 0 || hours > 10 || minutes < 0 || minutes > 99 || seconds < 0 || seconds > 99) {
-    throw new Error("Usa ore 0-10, minuti 0-99 e secondi 0-99.");
+    throw new Error("error.decimal.range");
   }
 
   if (hours === 10 && (minutes !== 0 || seconds !== 0)) {
-    throw new Error("Dopo 10:00:00 decimale inizia il giorno successivo.");
+    throw new Error("error.decimal.end");
   }
 }
 

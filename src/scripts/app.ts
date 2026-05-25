@@ -108,26 +108,57 @@ const normalHourHand = query<SVGGElement>("#normal-hour-hand");
 const normalMinuteHand = query<SVGGElement>("#normal-minute-hand");
 const normalSecondHand = query<SVGGElement>("#normal-second-hand");
 
-const percentFormatter = new Intl.NumberFormat("it-IT", {
-  minimumFractionDigits: 3,
-  maximumFractionDigits: 3,
-});
-const fractionFormatter = new Intl.NumberFormat("it-IT", {
-  minimumFractionDigits: 5,
-  maximumFractionDigits: 5,
-});
-const dateFormatter = new Intl.DateTimeFormat("it-IT", {
-  weekday: "long",
-  day: "2-digit",
-  month: "long",
-  year: "numeric",
-});
-const historyTimeFormatter = new Intl.DateTimeFormat("it-IT", {
-  day: "2-digit",
-  month: "2-digit",
-  hour: "2-digit",
-  minute: "2-digit",
-});
+function getLocale(): string {
+  return getLang() === "en" ? "en-US" : "it-IT";
+}
+
+function createFormatters() {
+  const locale = getLocale();
+
+  return {
+    percent: new Intl.NumberFormat(locale, {
+      minimumFractionDigits: 3,
+      maximumFractionDigits: 3,
+    }),
+    fraction: new Intl.NumberFormat(locale, {
+      minimumFractionDigits: 5,
+      maximumFractionDigits: 5,
+    }),
+    date: new Intl.DateTimeFormat(locale, {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }),
+    historyTime: new Intl.DateTimeFormat(locale, {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+  };
+}
+
+let formatters = createFormatters();
+
+function refreshFormatters(): void {
+  formatters = createFormatters();
+}
+
+const errorTranslations = {
+  "error.format.normal": "error.format.normal",
+  "error.format.decimal": "error.format.decimal",
+  "error.integer": "error.integer",
+  "error.normal.range": "error.normal.range",
+  "error.normal.end": "error.normal.end",
+  "error.decimal.range": "error.decimal.range",
+  "error.decimal.end": "error.decimal.end",
+  "error.clipboard": "error.clipboard",
+} satisfies Record<string, Parameters<typeof t>[0]>;
+
+function isKnownErrorMessage(message: string): message is keyof typeof errorTranslations {
+  return message in errorTranslations;
+}
 
 const normalInputs = {
   hours: query<HTMLInputElement>("#normal-hours"),
@@ -238,7 +269,13 @@ function showDecimalConversion(decimalSeconds: number, syncCompact: boolean): vo
 }
 
 function getErrorMessage(error: unknown): string {
-  return error instanceof Error ? error.message : "Valore non valido.";
+  if (!(error instanceof Error)) {
+    return t("error.invalid");
+  }
+
+  return isKnownErrorMessage(error.message)
+    ? t(errorTranslations[error.message])
+    : error.message;
 }
 
 function convertNormalFieldsToDecimal(): void {
@@ -292,8 +329,12 @@ function applyNormalPreset(value: string): void {
 
   setNormalFields(normalSeconds);
   showNormalConversion(normalSeconds, false);
-  if (value === "now") liveSync.checked = true;
-  else liveSync.checked = false;
+  if (value === "now") {
+    liveSync.checked = true;
+    updateClocks();
+  } else {
+    liveSync.checked = false;
+  }
 }
 
 function applyDecimalPreset(value: string): void {
@@ -303,8 +344,12 @@ function applyDecimalPreset(value: string): void {
 
   setDecimalFields(decimalSeconds);
   showDecimalConversion(decimalSeconds, false);
-  if (value === "now") liveSync.checked = true;
-  else liveSync.checked = false;
+  if (value === "now") {
+    liveSync.checked = true;
+    updateClocks();
+  } else {
+    liveSync.checked = false;
+  }
 }
 
 function setActionStatus(message: string): void {
@@ -313,7 +358,7 @@ function setActionStatus(message: string): void {
 
 async function copyText(text: string): Promise<void> {
   if (!navigator.clipboard) {
-    throw new Error("Copia automatica non disponibile in questo browser.");
+    throw new Error("error.clipboard");
   }
 
   await navigator.clipboard.writeText(text);
@@ -323,7 +368,7 @@ async function copyResult(resultId: string): Promise<void> {
   const result = document.querySelector<HTMLOutputElement>(`#${resultId}`);
 
   if (!result || result.textContent?.includes("--")) {
-    setActionStatus("Nessun risultato valido da copiare.");
+    setActionStatus(t("converter.status.no_valid_copy"));
     return;
   }
 
@@ -332,7 +377,7 @@ async function copyResult(resultId: string): Promise<void> {
     result.classList.remove("copy-flash");
     void result.offsetWidth;
     result.classList.add("copy-flash");
-    setActionStatus(`Copiato: ${result.textContent}`);
+    setActionStatus(`${t("converter.status.copied")} ${result.textContent}`);
   } catch (error) {
     setActionStatus(getErrorMessage(error));
   }
@@ -343,7 +388,7 @@ function useResult(target: string): void {
     const value = normalToDecimalResult.textContent ?? "";
 
     if (value.includes("--")) {
-      setActionStatus("Il risultato decimale non e' valido.");
+      setActionStatus(t("converter.status.decimal_invalid"));
       return;
     }
 
@@ -356,7 +401,7 @@ function useResult(target: string): void {
   const value = decimalToNormalResult.textContent ?? "";
 
   if (value.includes("--")) {
-    setActionStatus("Il risultato classico non e' valido.");
+    setActionStatus(t("converter.status.normal_invalid"));
     return;
   }
 
@@ -408,7 +453,7 @@ function renderHistory(): void {
       ? t("converter.history.direction.normal")
       : t("converter.history.direction.decimal");
     value.textContent = `${item.source} → ${item.result}`;
-    savedAt.textContent = historyTimeFormatter.format(new Date(item.savedAt));
+    savedAt.textContent = formatters.historyTime.format(new Date(item.savedAt));
 
     listItem.style.cursor = "pointer";
     listItem.title = t("converter.history.click");
@@ -426,7 +471,7 @@ function saveConversion(direction: ConversionDirection): void {
     : (decimalToNormalResult.textContent ?? "");
 
   if (result.includes("--")) {
-    setActionStatus("Non posso salvare una conversione non valida.");
+    setActionStatus(t("converter.status.invalid_save"));
     return;
   }
 
@@ -462,8 +507,8 @@ function updateDayProgress(date: Date): void {
   const percent = fraction * 100;
   const remainingSeconds = Math.max(0, Math.ceil((dayMilliseconds - elapsedMilliseconds) / 1000));
 
-  dayPercent.textContent = `${percentFormatter.format(percent)}%`;
-  dayDecimalFraction.textContent = fractionFormatter.format(fraction);
+  dayPercent.textContent = `${formatters.percent.format(percent)}%`;
+  dayDecimalFraction.textContent = formatters.fraction.format(fraction);
   dayRemaining.textContent = formatNormalTime(remainingSeconds);
   dayProgressbar.setAttribute("aria-valuenow", percent.toFixed(3));
   dayProgressFill.style.width = `${percent}%`;
@@ -511,7 +556,7 @@ function updateClocks(): void {
   normalClock.dateTime = normalTime;
   heroLiveTime.textContent = normalTime;
   heroLiveTime.dateTime = normalTime;
-  normalDate.textContent = dateFormatter.format(now);
+  normalDate.textContent = formatters.date.format(now);
   decimalClock.textContent = decimalText;
   decimalClock.dateTime = formatDecimalTime(decimalTime.wholeSeconds);
 
@@ -554,11 +599,20 @@ function initializeEventListeners(): void {
   decimalToNormalForm.addEventListener("submit", (event) => event.preventDefault());
   roundingMode.addEventListener("change", () => {
     setStoredValue(storageKeys.rounding, roundingMode.value);
-    convertNormalFieldsToDecimal();
-    convertDecimalFieldsToNormal();
+    if (liveSync.checked) {
+      updateClocks();
+    } else {
+      convertNormalFieldsToDecimal();
+      convertDecimalFieldsToNormal();
+    }
     setActionStatus(t("converter.status.precision"));
   });
   clockDisplay.addEventListener("change", applyDisplayPreference);
+  liveSync.addEventListener("change", () => {
+    if (liveSync.checked) {
+      updateClocks();
+    }
+  });
 
   for (const button of document.querySelectorAll<HTMLElement>("[data-normal-preset]")) {
     button.addEventListener("click", () => applyNormalPreset(button.dataset.normalPreset ?? "00:00:00"));
@@ -616,6 +670,7 @@ function registerServiceWorker(): void {
 function initializeTabs(): void {
   const buttons = document.querySelectorAll<HTMLElement>(".tab-button");
   const panels = document.querySelectorAll<HTMLElement>(".tab-panel");
+  const buttonList = Array.from(buttons);
 
   function activateTab(tab: string): void {
     for (const b of buttons) {
@@ -623,7 +678,11 @@ function initializeTabs(): void {
       b.classList.toggle("active", isActive);
       b.setAttribute("aria-selected", String(isActive));
     }
-    for (const p of panels) p.classList.toggle("active", p.dataset.panel === tab);
+    for (const p of panels) {
+      const isActive = p.dataset.panel === tab;
+      p.classList.toggle("active", isActive);
+      p.hidden = !isActive;
+    }
   }
 
   for (const button of buttons) {
@@ -633,6 +692,26 @@ function initializeTabs(): void {
 
       activateTab(tab);
       history.replaceState(null, "", `#${tab}`);
+    });
+
+    button.addEventListener("keydown", (event) => {
+      const currentIndex = buttonList.indexOf(button);
+      let nextIndex = currentIndex;
+
+      if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % buttonList.length;
+      else if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + buttonList.length) % buttonList.length;
+      else if (event.key === "Home") nextIndex = 0;
+      else if (event.key === "End") nextIndex = buttonList.length - 1;
+      else return;
+
+      event.preventDefault();
+      const nextButton = buttonList[nextIndex];
+      const tab = nextButton.dataset.tab;
+      if (!tab) return;
+
+      activateTab(tab);
+      history.replaceState(null, "", `#${tab}`);
+      nextButton.focus();
     });
   }
 
@@ -660,15 +739,19 @@ initializePreferences();
 initializeEventListeners();
 initializeTabs();
 initI18n();
+refreshFormatters();
 
 langSwitch.value = getLang();
 langSwitch.addEventListener("change", () => {
   setLang(langSwitch.value as "it" | "en");
+  refreshFormatters();
   renderHistory();
+  timezoneNote.textContent = getTimeZoneName() || t("clock.timezone.browser");
+  updateClocks();
 });
 
 renderHistory();
-timezoneNote.textContent = getTimeZoneName();
+timezoneNote.textContent = getTimeZoneName() || t("clock.timezone.browser");
 updateClocks();
 if (liveSync.checked) {
   applyNormalPreset("now");

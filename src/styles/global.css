@@ -100,47 +100,6 @@ button {
 .hero-top {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.hero-controls {
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.hero-display {
-  padding: 9px 14px;
-  border: 1px solid var(--panel-border);
-  border-radius: 16px;
-  background: var(--panel);
-  backdrop-filter: blur(18px);
-  color: var(--muted-strong);
-  font-size: 0.64rem;
-  font-weight: 800;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-}
-
-.hero-display select {
-  margin-top: 4px;
-  padding: 7px 10px;
-  border: 1px solid var(--soft-border);
-  border-radius: 12px;
-  background: var(--field-bg);
-  color: var(--heading);
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0;
-  outline: none;
-  text-transform: none;
-}
-
-.hero-top {
-  display: flex;
-  justify-content: space-between;
   align-items: flex-start;
   gap: clamp(16px, 3vw, 32px);
   flex-wrap: wrap;
