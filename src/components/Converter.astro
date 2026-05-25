@@ -1,24 +1,24 @@
 <section class="converter" aria-labelledby="converter-title">
   <div class="converter-heading">
-    <p class="eyebrow">Convertitore</p>
-    <h2 id="converter-title">Passa da un sistema all'altro</h2>
-    <p>
+    <p class="eyebrow" data-i18n="converter.eyebrow">Convertitore</p>
+    <h2 id="converter-title" data-i18n="converter.title">Passa da un sistema all'altro</h2>
+    <p data-i18n="converter.desc">
       Inserisci un orario e la conversione viene aggiornata subito.
       Sono supportati anche 24:00:00 e 10:00:00 come fine giornata.
     </p>
-    <p class="converter-note">
+    <p class="converter-note" data-i18n="converter.rounding.note">
       Scegli come trattare i decimali quando la conversione non cade su un secondo esatto.
     </p>
     <label class="checkbox-control live-sync" for="live-sync">
       <input id="live-sync" type="checkbox" checked />
-      Sincronizza con l'ora corrente
+      <span data-i18n="converter.live">Sincronizza con l'ora corrente</span>
     </label>
     <label class="rounding-control" for="rounding-mode">
-      Precisione conversione
+      <span data-i18n="converter.rounding">Precisione conversione</span>
       <select id="rounding-mode">
-        <option value="nearest">Arrotonda al piu vicino</option>
-        <option value="floor">Sempre per difetto</option>
-        <option value="ceil">Sempre per eccesso</option>
+        <option value="nearest" data-i18n="converter.rounding.nearest">Arrotonda al piu' vicino</option>
+        <option value="floor" data-i18n="converter.rounding.floor">Sempre per difetto</option>
+        <option value="ceil" data-i18n="converter.rounding.ceil">Sempre per eccesso</option>
       </select>
     </label>
   </div>
@@ -26,37 +26,37 @@
   <div class="converter-grid">
     <form id="normal-to-decimal-form" class="converter-card">
       <div class="converter-card-heading">
-        <h3>Classico -> decimale</h3>
-        <p>Da 24 ore a 10 ore decimali.</p>
+        <h3 data-i18n="converter.normal.heading">Classico → decimale</h3>
+        <p data-i18n="converter.normal.desc">Da 24 ore a 10 ore decimali.</p>
       </div>
 
       <label class="compact-field" for="normal-compact">
-        Scrivi HH:MM:SS
+        <span data-i18n="converter.normal.compact">Scrivi HH:MM:SS</span>
         <input id="normal-compact" type="text" value="12:00:00" inputmode="numeric" autocomplete="off" pattern="[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}" placeholder="12:00:00" aria-describedby="normal-format-hint normal-to-decimal-error" />
       </label>
-      <p id="normal-format-hint" class="field-hint">Esempio: 18:30:00. Valido da 00:00:00 a 24:00:00.</p>
+      <p id="normal-format-hint" class="field-hint" data-i18n="converter.normal.hint">Esempio: 18:30:00. Valido da 00:00:00 a 24:00:00.</p>
 
       <div class="fields" aria-label="Orario classico">
-        <label for="normal-hours">Ore<input id="normal-hours" type="number" min="0" max="24" step="1" value="12" inputmode="numeric" aria-describedby="normal-to-decimal-error" /></label>
-        <label for="normal-minutes">Minuti<input id="normal-minutes" type="number" min="0" max="59" step="1" value="0" inputmode="numeric" aria-describedby="normal-to-decimal-error" /></label>
-        <label for="normal-seconds">Secondi<input id="normal-seconds" type="number" min="0" max="59" step="1" value="0" inputmode="numeric" aria-describedby="normal-to-decimal-error" /></label>
+        <label for="normal-hours"><span data-i18n="converter.normal.hours">Ore</span><input id="normal-hours" type="number" min="0" max="24" step="1" value="12" inputmode="numeric" aria-describedby="normal-to-decimal-error" /></label>
+        <label for="normal-minutes"><span data-i18n="converter.normal.minutes">Minuti</span><input id="normal-minutes" type="number" min="0" max="59" step="1" value="0" inputmode="numeric" aria-describedby="normal-to-decimal-error" /></label>
+        <label for="normal-seconds"><span data-i18n="converter.normal.seconds">Secondi</span><input id="normal-seconds" type="number" min="0" max="59" step="1" value="0" inputmode="numeric" aria-describedby="normal-to-decimal-error" /></label>
       </div>
 
       <div class="quick-actions" aria-label="Scorciatoie orario classico">
-        <button type="button" data-normal-preset="now">Ora attuale</button>
-        <button type="button" data-normal-preset="12:00:00">Mezzogiorno</button>
-        <button type="button" data-normal-preset="24:00:00">Fine giornata</button>
-        <button type="button" data-normal-preset="00:00:00">Azzera</button>
+        <button type="button" data-normal-preset="now" data-i18n="converter.normal.now">Ora attuale</button>
+        <button type="button" data-normal-preset="12:00:00" data-i18n="converter.normal.noon">Mezzogiorno</button>
+        <button type="button" data-normal-preset="24:00:00" data-i18n="converter.normal.end">Fine giornata</button>
+        <button type="button" data-normal-preset="00:00:00" data-i18n="converter.normal.zero">Azzera</button>
       </div>
 
       <div class="conversion-result">
-        <span>Risultato</span>
+        <span data-i18n="converter.normal.result">Risultato</span>
         <div class="result-line">
           <output id="normal-to-decimal-result" aria-live="polite">5:00:00</output>
           <div class="result-actions">
-            <button type="button" data-copy-result="normal-to-decimal-result">Copia</button>
-            <button type="button" data-use-result="decimal">Usa nel decimale</button>
-            <button type="button" data-save-result="normal-to-decimal">Salva</button>
+            <button type="button" data-copy-result="normal-to-decimal-result" data-i18n="converter.normal.copy">Copia</button>
+            <button type="button" data-use-result="decimal" data-i18n="converter.normal.use">Usa nel decimale</button>
+            <button type="button" data-save-result="normal-to-decimal" data-i18n="converter.normal.save">Salva</button>
           </div>
         </div>
       </div>
@@ -65,37 +65,37 @@
 
     <form id="decimal-to-normal-form" class="converter-card">
       <div class="converter-card-heading">
-        <h3>Decimale -> classico</h3>
-        <p>Da 10 ore decimali a 24 ore.</p>
+        <h3 data-i18n="converter.decimal.heading">Decimale → classico</h3>
+        <p data-i18n="converter.decimal.desc">Da 10 ore decimali a 24 ore.</p>
       </div>
 
       <label class="compact-field" for="decimal-compact">
-        Scrivi H:MM:SS
+        <span data-i18n="converter.decimal.compact">Scrivi H:MM:SS</span>
         <input id="decimal-compact" type="text" value="5:00:00" inputmode="numeric" autocomplete="off" pattern="[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}" placeholder="5:00:00" aria-describedby="decimal-format-hint decimal-to-normal-error" />
       </label>
-      <p id="decimal-format-hint" class="field-hint">Esempio: 7:50:00. Valido da 0:00:00 a 10:00:00.</p>
+      <p id="decimal-format-hint" class="field-hint" data-i18n="converter.decimal.hint">Esempio: 7:50:00. Valido da 0:00:00 a 10:00:00.</p>
 
       <div class="fields" aria-label="Orario decimale">
-        <label for="decimal-hours">Ore<input id="decimal-hours" type="number" min="0" max="10" step="1" value="5" inputmode="numeric" aria-describedby="decimal-to-normal-error" /></label>
-        <label for="decimal-minutes">Minuti<input id="decimal-minutes" type="number" min="0" max="99" step="1" value="0" inputmode="numeric" aria-describedby="decimal-to-normal-error" /></label>
-        <label for="decimal-seconds">Secondi<input id="decimal-seconds" type="number" min="0" max="99" step="1" value="0" inputmode="numeric" aria-describedby="decimal-to-normal-error" /></label>
+        <label for="decimal-hours"><span data-i18n="converter.decimal.hours">Ore</span><input id="decimal-hours" type="number" min="0" max="10" step="1" value="5" inputmode="numeric" aria-describedby="decimal-to-normal-error" /></label>
+        <label for="decimal-minutes"><span data-i18n="converter.decimal.minutes">Minuti</span><input id="decimal-minutes" type="number" min="0" max="99" step="1" value="0" inputmode="numeric" aria-describedby="decimal-to-normal-error" /></label>
+        <label for="decimal-seconds"><span data-i18n="converter.decimal.seconds">Secondi</span><input id="decimal-seconds" type="number" min="0" max="99" step="1" value="0" inputmode="numeric" aria-describedby="decimal-to-normal-error" /></label>
       </div>
 
       <div class="quick-actions" aria-label="Scorciatoie orario decimale">
-        <button type="button" data-decimal-preset="now">Ora attuale</button>
-        <button type="button" data-decimal-preset="5:00:00">Meta giornata</button>
-        <button type="button" data-decimal-preset="10:00:00">Fine giornata</button>
-        <button type="button" data-decimal-preset="0:00:00">Azzera</button>
+        <button type="button" data-decimal-preset="now" data-i18n="converter.decimal.now">Ora attuale</button>
+        <button type="button" data-decimal-preset="5:00:00" data-i18n="converter.decimal.half">Meta' giornata</button>
+        <button type="button" data-decimal-preset="10:00:00" data-i18n="converter.decimal.end">Fine giornata</button>
+        <button type="button" data-decimal-preset="0:00:00" data-i18n="converter.decimal.zero">Azzera</button>
       </div>
 
       <div class="conversion-result">
-        <span>Risultato</span>
+        <span data-i18n="converter.decimal.result">Risultato</span>
         <div class="result-line">
           <output id="decimal-to-normal-result" aria-live="polite">12:00:00</output>
           <div class="result-actions">
-            <button type="button" data-copy-result="decimal-to-normal-result">Copia</button>
-            <button type="button" data-use-result="normal">Usa nel classico</button>
-            <button type="button" data-save-result="decimal-to-normal">Salva</button>
+            <button type="button" data-copy-result="decimal-to-normal-result" data-i18n="converter.decimal.copy">Copia</button>
+            <button type="button" data-use-result="normal" data-i18n="converter.decimal.use">Usa nel classico</button>
+            <button type="button" data-save-result="decimal-to-normal" data-i18n="converter.decimal.save">Salva</button>
           </div>
         </div>
       </div>
@@ -104,20 +104,20 @@
   </div>
 
   <div class="example-strip" aria-label="Esempi rapidi">
-    <span>Esempi rapidi</span>
-    <button type="button" data-example-normal="06:00:00" data-example-decimal="2:50:00">06:00 -> 2:50:00</button>
-    <button type="button" data-example-normal="12:00:00" data-example-decimal="5:00:00">12:00 -> 5:00:00</button>
-    <button type="button" data-example-normal="18:00:00" data-example-decimal="7:50:00">18:00 -> 7:50:00</button>
-    <button type="button" data-example-normal="24:00:00" data-example-decimal="10:00:00">24:00 -> 10:00:00</button>
+    <span data-i18n="converter.examples">Esempi rapidi</span>
+    <button type="button" data-example-normal="06:00:00" data-example-decimal="2:50:00">06:00 → 2:50:00</button>
+    <button type="button" data-example-normal="12:00:00" data-example-decimal="5:00:00">12:00 → 5:00:00</button>
+    <button type="button" data-example-normal="18:00:00" data-example-decimal="7:50:00">18:00 → 7:50:00</button>
+    <button type="button" data-example-normal="24:00:00" data-example-decimal="10:00:00">24:00 → 10:00:00</button>
   </div>
 
-  <aside class="conversion-history" aria-labelledby="history-title">
+  <aside class="conversion-history" aria-labelledby="history-title-conv">
     <div class="history-heading">
-      <h3 id="history-title">Storico conversioni</h3>
-      <button id="clear-history" type="button">Svuota</button>
+      <h3 id="history-title-conv" data-i18n="converter.history.title">Storico conversioni</h3>
+      <button id="clear-history" type="button" data-i18n="converter.history.clear">Svuota</button>
     </div>
     <ol id="conversion-history-list">
-      <li>Nessuna conversione salvata.</li>
+      <li data-i18n="converter.history.empty">Nessuna conversione salvata.</li>
     </ol>
   </aside>
 

@@ -1,23 +1,23 @@
----
-const items = [
-  ["1 ora decimale", "2h 24m", "Un decimo della giornata classica."],
-  ["1 minuto decimale", "86,4s", "Poco piu di un minuto classico."],
-  ["1 secondo decimale", "0,864s", "Leggermente piu corto del secondo SI."],
-];
----
 <section class="equivalences" aria-labelledby="equivalences-title">
   <div class="equivalences-heading">
-    <p class="eyebrow">Equivalenze</p>
-    <h2 id="equivalences-title">Quanto dura un pezzo di tempo decimale</h2>
+    <p class="eyebrow" data-i18n="equivalences.eyebrow">Equivalenze</p>
+    <h2 id="equivalences-title" data-i18n="equivalences.title">Quanto dura un pezzo di tempo decimale</h2>
   </div>
-
   <div class="equivalence-grid">
-    {items.map(([label, value, note]) => (
-      <article>
-        <span>{label}</span>
-        <strong>{value}</strong>
-        <p>{note}</p>
-      </article>
-    ))}
+    <article>
+      <span data-i18n="equivalences.hour">1 ora decimale</span>
+      <strong data-i18n="equivalences.hour.value">2h 24m</strong>
+      <p data-i18n="equivalences.hour.note">Un decimo della giornata classica.</p>
+    </article>
+    <article>
+      <span data-i18n="equivalences.minute">1 minuto decimale</span>
+      <strong data-i18n="equivalences.minute.value">86,4s</strong>
+      <p data-i18n="equivalences.minute.note">Poco piu' di un minuto classico.</p>
+    </article>
+    <article>
+      <span data-i18n="equivalences.second">1 secondo decimale</span>
+      <strong data-i18n="equivalences.second.value">0,864s</strong>
+      <p data-i18n="equivalences.second.note">Leggermente piu' corto del secondo SI.</p>
+    </article>
   </div>
 </section>

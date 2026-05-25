@@ -32,8 +32,8 @@ const normalTicksD = normalTicks.join("");
   <article class="clock-card normal-card" id="normal-card">
     <div class="clock-header">
       <div>
-        <p class="clock-label">Ora normale</p>
-        <p class="clock-subtitle">24 ore, 60 minuti, 60 secondi</p>
+        <p class="clock-label" data-i18n="clock.normal.label">Ora normale</p>
+        <p class="clock-subtitle" data-i18n="clock.normal.subtitle">24 ore, 60 minuti, 60 secondi</p>
       </div>
     </div>
     <div class="normal-clock-layout">
@@ -58,14 +58,14 @@ const normalTicksD = normalTicks.join("");
       </div>
     </div>
     <p id="normal-date" class="clock-note">--</p>
-    <p id="timezone-note" class="clock-note subtle-note">Fuso orario: --</p>
+    <p class="clock-note subtle-note"><span data-i18n="clock.timezone">Fuso orario:</span> <span id="timezone-note">--</span></p>
   </article>
 
   <article class="clock-card decimal-card" id="decimal-card">
     <div class="clock-header">
       <div>
-        <p class="clock-label">Ora decimale</p>
-        <p class="clock-subtitle">10 ore, 100 minuti, 100 secondi</p>
+        <p class="clock-label" data-i18n="clock.decimal.label">Ora decimale</p>
+        <p class="clock-subtitle" data-i18n="clock.decimal.subtitle">10 ore, 100 minuti, 100 secondi</p>
       </div>
     </div>
     <div class="decimal-clock-layout">
@@ -89,6 +89,6 @@ const normalTicksD = normalTicks.join("");
         </svg>
       </div>
     </div>
-    <p class="clock-note">Mezzogiorno = 5:00:00, fine giornata = 10:00:00</p>
+    <p class="clock-note" data-i18n="clock.decimal.note">Mezzogiorno = 5:00:00, fine giornata = 10:00:00</p>
   </article>
 </section>

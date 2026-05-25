@@ -15,6 +15,7 @@ import {
   parseTimeText,
   type RoundingMode,
 } from "./time";
+import { initI18n, setLang, getLang, t } from "./i18n";
 
 type ClockDisplayMode = "digital" | "analog";
 type ConversionDirection = "normal-to-decimal" | "decimal-to-normal";
@@ -96,6 +97,7 @@ const roundingMode = query<HTMLSelectElement>("#rounding-mode");
 const normalCompactInput = query<HTMLInputElement>("#normal-compact");
 const decimalCompactInput = query<HTMLInputElement>("#decimal-compact");
 const clockDisplay = query<HTMLSelectElement>("#clock-display");
+const langSwitch = query<HTMLSelectElement>("#lang-switch");
 const liveSync = query<HTMLInputElement>("#live-sync");
 const conversionHistoryList = query<HTMLOListElement>("#conversion-history-list");
 const clearHistory = query<HTMLButtonElement>("#clear-history");
@@ -345,7 +347,7 @@ function useResult(target: string): void {
 
     decimalCompactInput.value = value;
     convertDecimalCompactToNormal();
-    setActionStatus("Risultato inserito nel convertitore decimale.");
+    setActionStatus(t("converter.status.decimal"));
     return;
   }
 
@@ -358,7 +360,7 @@ function useResult(target: string): void {
 
   normalCompactInput.value = value;
   convertNormalCompactToDecimal();
-  setActionStatus("Risultato inserito nel convertitore classico.");
+  setActionStatus(t("converter.status.normal"));
 }
 
 function readHistory(): SavedConversion[] {
@@ -386,7 +388,7 @@ function renderHistory(): void {
 
   if (conversionHistory.length === 0) {
     const emptyItem = document.createElement("li");
-    emptyItem.textContent = "Nessuna conversione salvata.";
+    emptyItem.textContent = t("converter.history.empty");
     conversionHistoryList.append(emptyItem);
     return;
   }
@@ -400,12 +402,14 @@ function renderHistory(): void {
     direction.className = "history-direction";
     value.className = "history-value";
     savedAt.className = "history-time";
-    direction.textContent = item.direction === "normal-to-decimal" ? "Classico" : "Decimale";
-    value.textContent = `${item.source} -> ${item.result}`;
+    direction.textContent = item.direction === "normal-to-decimal"
+      ? t("converter.history.direction.normal")
+      : t("converter.history.direction.decimal");
+    value.textContent = `${item.source} → ${item.result}`;
     savedAt.textContent = historyTimeFormatter.format(new Date(item.savedAt));
 
     listItem.style.cursor = "pointer";
-    listItem.title = "Clicca per ricaricare questa conversione";
+    listItem.title = t("converter.history.click");
     listItem.addEventListener("click", () => loadHistoryItem(item));
 
     listItem.append(direction, value, savedAt);
@@ -427,25 +431,25 @@ function saveConversion(direction: ConversionDirection): void {
   conversionHistory = [{ direction, source, result, savedAt: new Date().toISOString() }, ...conversionHistory].slice(0, 8);
   writeHistory();
   renderHistory();
-  setActionStatus("Conversione salvata nello storico locale.");
+  setActionStatus(t("converter.status.saved"));
 }
 
 function clearConversionHistory(): void {
   conversionHistory = [];
   writeHistory();
   renderHistory();
-  setActionStatus("Storico conversioni svuotato.");
+  setActionStatus(t("converter.status.history_cleared"));
 }
 
 function loadHistoryItem(item: SavedConversion): void {
   if (item.direction === "normal-to-decimal") {
     normalCompactInput.value = item.source;
     convertNormalCompactToDecimal();
-    setActionStatus("Conversione ricaricata dallo storico.");
+    setActionStatus(t("converter.status.reloaded"));
   } else {
     decimalCompactInput.value = item.source;
     convertDecimalCompactToNormal();
-    setActionStatus("Conversione ricaricata dallo storico.");
+    setActionStatus(t("converter.status.reloaded"));
   }
 }
 
@@ -550,7 +554,7 @@ function initializeEventListeners(): void {
     setStoredValue(storageKeys.rounding, roundingMode.value);
     convertNormalFieldsToDecimal();
     convertDecimalFieldsToNormal();
-    setActionStatus("Precisione aggiornata.");
+    setActionStatus(t("converter.status.precision"));
   });
   clockDisplay.addEventListener("change", applyDisplayPreference);
 
@@ -567,7 +571,7 @@ function initializeEventListeners(): void {
       applyNormalPreset(button.dataset.exampleNormal ?? "12:00:00");
       applyDecimalPreset(button.dataset.exampleDecimal ?? "5:00:00");
       liveSync.checked = false;
-      setActionStatus("Esempio caricato nei due convertitori.");
+      setActionStatus(t("converter.status.example"));
     });
   }
 
@@ -649,8 +653,16 @@ function initializeTabs(): void {
 initializePreferences();
 initializeEventListeners();
 initializeTabs();
+initI18n();
+
+langSwitch.value = getLang();
+langSwitch.addEventListener("change", () => {
+  setLang(langSwitch.value as "it" | "en");
+  renderHistory();
+});
+
 renderHistory();
-timezoneNote.textContent = `Fuso orario: ${getTimeZoneName()}`;
+timezoneNote.textContent = getTimeZoneName();
 updateClocks();
 convertNormalFieldsToDecimal();
 convertDecimalFieldsToNormal();

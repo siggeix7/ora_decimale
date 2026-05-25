@@ -1,19 +1,25 @@
 <section class="hero" aria-labelledby="page-title">
   <div class="hero-top">
     <div class="hero-heading">
-      <p class="eyebrow">Tempo locale · <time id="hero-live-time">--:--:--</time></p>
-      <h1 id="page-title">Due modi di leggere lo stesso giorno</h1>
+      <p class="eyebrow"><span data-i18n="hero.eyebrow">Tempo locale</span> · <time id="hero-live-time">--:--:--</time></p>
+      <h1 id="page-title" data-i18n="hero.title">Due modi di leggere lo stesso giorno</h1>
     </div>
-    <label class="hero-display" for="clock-display">
-      Modalita' orologi
-      <select id="clock-display">
-        <option value="digital">Digitale</option>
-        <option value="analog">Analogico</option>
-      </select>
-    </label>
+    <div class="hero-controls">
+      <label class="hero-display" for="clock-display">
+        <span data-i18n="hero.display">Modalita' orologi</span>
+        <select id="clock-display">
+          <option value="digital" data-i18n="hero.display.digital">Digitale</option>
+          <option value="analog" data-i18n="hero.display.analog">Analogico</option>
+        </select>
+      </label>
+      <label class="hero-display" for="lang-switch">
+        <span data-i18n="lang.switch">Lingua</span>
+        <select id="lang-switch">
+          <option value="it" data-i18n="lang.it">Italiano</option>
+          <option value="en" data-i18n="lang.en">English</option>
+        </select>
+      </label>
+    </div>
   </div>
-  <p class="intro">
-    L'orologio decimale divide il giorno in 10 ore, ogni ora in 100 minuti
-    e ogni minuto in 100 secondi.
-  </p>
+  <p class="intro" data-i18n="hero.intro">Per il tempo non serve un orologio, bastano le tue dita. L'orologio decimale divide il giorno in 10 ore, ogni ora in 100 minuti e ogni minuto in 100 secondi.</p>
 </section>
