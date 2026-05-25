@@ -1,42 +1,31 @@
 <section class="day-progress" aria-labelledby="day-progress-title">
-  <div class="day-progress-heading">
-    <p class="eyebrow" data-i18n="progress.eyebrow">Avanzamento</p>
-    <h2 id="day-progress-title" data-i18n="progress.title">Il giorno come valore continuo</h2>
-    <p data-i18n="progress.subtitle">
-      La barra mostra quanto del giorno locale e' gia' passato. La stessa
-      frazione alimenta sia l'orologio classico sia quello decimale.
-    </p>
-  </div>
-
   <div class="day-progress-panel">
-    <div class="progress-metrics">
-      <article class="progress-percent-card">
-        <svg class="progress-ring" viewBox="0 0 80 80" role="img" aria-hidden="true">
-          <defs>
-            <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="var(--accent, #8fb3ff)" />
-              <stop offset="100%" stop-color="var(--warm, #ffb547)" />
-            </linearGradient>
-          </defs>
-          <circle class="progress-ring-bg" cx="40" cy="40" r="32" />
-          <circle id="progress-ring-fill" class="progress-ring-fill" cx="40" cy="40" r="32" />
-        </svg>
-        <div>
-          <span data-i18n="progress.elapsed">Giorno trascorso</span>
-          <strong id="day-percent">--%</strong>
-        </div>
-      </article>
-      <article>
-        <span data-i18n="progress.fraction">Frazione decimale</span>
-        <strong id="day-decimal-fraction">0,00000</strong>
-      </article>
-      <article>
-        <span data-i18n="progress.remaining">Tempo restante</span>
-        <strong id="day-remaining">--:--:--</strong>
-      </article>
-    </div>
     <div class="progress-track" role="progressbar" aria-label="Percentuale di giornata trascorsa" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="day-progressbar">
       <span id="day-progress-fill"></span>
     </div>
+    <article class="progress-percent-card">
+      <svg class="progress-ring" viewBox="0 0 80 80" role="img" aria-hidden="true">
+        <defs>
+          <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--accent, #8fb3ff)" />
+            <stop offset="100%" stop-color="var(--warm, #ffb547)" />
+          </linearGradient>
+        </defs>
+        <circle class="progress-ring-bg" cx="40" cy="40" r="32" />
+        <circle id="progress-ring-fill" class="progress-ring-fill" cx="40" cy="40" r="32" />
+      </svg>
+      <div>
+        <span data-i18n="progress.elapsed">Giorno trascorso</span>
+        <strong id="day-percent">--%</strong>
+      </div>
+    </article>
+    <article>
+      <span data-i18n="progress.fraction">Frazione decimale</span>
+      <strong id="day-decimal-fraction">0,00000</strong>
+    </article>
+    <article>
+      <span data-i18n="progress.remaining">Tempo restante</span>
+      <strong id="day-remaining">--:--:--</strong>
+    </article>
   </div>
 </section>
