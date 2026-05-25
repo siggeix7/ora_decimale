@@ -1,0 +1,35 @@
+---
+import "../styles/global.css";
+
+const title = "Ora decimale";
+const description = "Orologio decimale con quadrante analogico, preferenze salvate, PWA offline e convertitore bidirezionale.";
+---
+<!doctype html>
+<html lang="it" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="application-name" content={title} />
+    <meta name="theme-color" content="#0d1117" />
+    <title>{title}</title>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+  </head>
+  <body class="js-loading">
+    <slot />
+
+    <noscript>
+      <div class="noscript-warning">
+        Attiva JavaScript per aggiornare gli orologi e usare il convertitore.
+      </div>
+    </noscript>
+
+    <script>
+      import "../scripts/app.ts";
+    </script>
+  </body>
+</html>

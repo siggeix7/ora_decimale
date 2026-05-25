@@ -1,0 +1,15 @@
+{
+  "name": "ora-decimale",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0",
+    "build": "astro build",
+    "preview": "astro preview --host 0.0.0.0 --port 4321"
+  },
+  "dependencies": {
+    "astro": "^5.13.8",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,28 +1,84 @@
-:root {
+:root,
+html[data-theme="dark"] {
   color-scheme: dark;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #0d1117;
-  color: #f4f7fb;
+  --accent: #8fb3ff;
+  --accent-strong: #4f8cff;
+  --warm: #ffb547;
+  --text: #f4f7fb;
+  --heading: #ffffff;
   --muted: #aab6c8;
+  --muted-strong: rgba(215, 225, 242, 0.74);
   --soft-border: rgba(255, 255, 255, 0.11);
+  --panel-border: rgba(255, 255, 255, 0.095);
+  --panel: rgba(255, 255, 255, 0.052);
+  --panel-strong: rgba(255, 255, 255, 0.07);
+  --field-bg: rgba(0, 0, 0, 0.30);
+  --field-bg-soft: rgba(0, 0, 0, 0.24);
+  --shadow: rgba(0, 0, 0, 0.42);
+  --normal-card-bg: linear-gradient(150deg, rgba(24, 32, 48, 0.92), rgba(12, 18, 29, 0.78));
+  --decimal-card-bg: linear-gradient(150deg, rgba(47, 34, 10, 0.92), rgba(22, 17, 11, 0.84));
+  --body-bg:
+    radial-gradient(circle at 12% 18%, rgba(61, 124, 255, 0.28), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(255, 181, 71, 0.20), transparent 28%),
+    linear-gradient(135deg, #0d1117 0%, #121826 48%, #080b11 100%);
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --accent: #285cc8;
+  --accent-strong: #2d62d9;
+  --warm: #b86600;
+  --text: #172033;
+  --heading: #08111f;
+  --muted: #5b6678;
+  --muted-strong: #47546a;
+  --soft-border: rgba(15, 30, 55, 0.14);
+  --panel-border: rgba(18, 32, 56, 0.12);
+  --panel: rgba(255, 255, 255, 0.72);
+  --panel-strong: rgba(255, 255, 255, 0.88);
+  --field-bg: rgba(255, 255, 255, 0.82);
+  --field-bg-soft: rgba(255, 255, 255, 0.70);
+  --shadow: rgba(38, 52, 79, 0.17);
+  --normal-card-bg: linear-gradient(150deg, rgba(231, 239, 255, 0.98), rgba(250, 252, 255, 0.86));
+  --decimal-card-bg: linear-gradient(150deg, rgba(255, 241, 214, 0.98), rgba(255, 252, 245, 0.88));
+  --body-bg:
+    radial-gradient(circle at 12% 18%, rgba(61, 124, 255, 0.20), transparent 28%),
+    radial-gradient(circle at 86% 10%, rgba(255, 181, 71, 0.28), transparent 26%),
+    linear-gradient(135deg, #eef4ff 0%, #f8fbff 50%, #fff6e9 100%);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  min-height: 100%;
+  background: #0d1117;
+}
+
 body {
   min-height: 100vh;
   margin: 0;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(61, 124, 255, 0.28), transparent 30%),
-    radial-gradient(circle at 88% 12%, rgba(255, 181, 71, 0.20), transparent 28%),
-    linear-gradient(135deg, #0d1117 0%, #121826 48%, #080b11 100%);
+  background: var(--body-bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  touch-action: manipulation;
 }
 
 .js-loading .hero,
+.js-loading .preferences,
 .js-loading .clock-card,
 .js-loading .day-progress,
+.js-loading .equivalences,
 .js-loading .converter,
 .js-loading .details {
   opacity: 0.3;
@@ -30,8 +86,10 @@ body {
 }
 
 .js-ready .hero,
+.js-ready .preferences,
 .js-ready .clock-card,
 .js-ready .day-progress,
+.js-ready .equivalences,
 .js-ready .converter,
 .js-ready .details {
   opacity: 1;
@@ -39,6 +97,7 @@ body {
   transition: opacity 320ms ease, transform 320ms ease;
 }
 
+.js-ready .preferences,
 .js-ready .clock-card:nth-child(2),
 .js-ready .converter-grid,
 .js-ready .day-progress-panel {
@@ -56,13 +115,13 @@ body {
 }
 
 .hero {
-  max-width: 860px;
+  max-width: 980px;
 }
 
 .eyebrow,
 .clock-label {
   margin: 0;
-  color: #8fb3ff;
+  color: var(--accent);
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.20em;
@@ -72,6 +131,7 @@ body {
 h1 {
   max-width: 1040px;
   margin: 8px 0 0;
+  color: var(--heading);
   font-size: clamp(1.85rem, 4.5vw, 4.9rem);
   line-height: 0.98;
   letter-spacing: -0.055em;
@@ -92,10 +152,85 @@ h1 {
 }
 
 .intro {
-  max-width: 620px;
+  max-width: 660px;
   margin: 12px 0 0;
   font-size: clamp(0.78rem, 1.1vw, 0.95rem);
   line-height: 1.55;
+}
+
+.preferences {
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.preferences-heading,
+.preference-grid {
+  padding: clamp(18px, 2vw, 26px);
+  border: 1px solid var(--panel-border);
+  border-radius: 26px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+}
+
+.preferences-heading h2 {
+  max-width: 520px;
+  margin: 8px 0 0;
+  color: var(--heading);
+  font-size: clamp(1.2rem, 2.2vw, 1.95rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.preference-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  align-items: end;
+}
+
+.preference-grid label,
+.rounding-control,
+.compact-field,
+.fields label {
+  color: var(--muted-strong);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.preference-grid select,
+.rounding-control select {
+  width: 100%;
+  margin-top: 8px;
+  padding: 13px 14px;
+  border: 1px solid var(--soft-border);
+  border-radius: 16px;
+  background: var(--field-bg);
+  color: var(--heading);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  outline: none;
+  text-transform: none;
+}
+
+.checkbox-control {
+  min-height: 48px;
+  padding: 13px 14px;
+  border: 1px solid var(--soft-border);
+  border-radius: 16px;
+  background: var(--field-bg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-control input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-strong);
 }
 
 .clocks {
@@ -109,7 +244,7 @@ h1 {
   padding: clamp(22px, 4vw, 48px);
   border: 1px solid var(--soft-border);
   border-radius: 36px;
-  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.42);
+  box-shadow: 0 34px 90px var(--shadow);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -130,19 +265,19 @@ h1 {
 }
 
 .normal-card {
-  background: linear-gradient(150deg, rgba(24, 32, 48, 0.92), rgba(12, 18, 29, 0.78));
+  background: var(--normal-card-bg);
 }
 
 .normal-card::after {
-  background: #4f8cff;
+  background: var(--accent-strong);
 }
 
 .decimal-card {
-  background: linear-gradient(150deg, rgba(47, 34, 10, 0.92), rgba(22, 17, 11, 0.84));
+  background: var(--decimal-card-bg);
 }
 
 .decimal-card::after {
-  background: #ffb547;
+  background: var(--warm);
 }
 
 .clock-header {
@@ -155,15 +290,15 @@ h1 {
 
 .clock-subtitle {
   margin: 6px 0 0;
-  color: rgba(215, 225, 242, 0.62);
+  color: var(--muted);
   font-size: clamp(0.68rem, 0.9vw, 0.82rem);
   line-height: 1.4;
 }
 
 .clock-value {
   margin: auto 0;
-  color: #ffffff;
-  font-size: clamp(4.3rem, 8.8vw, 10.5rem);
+  color: var(--heading);
+  font-size: clamp(4.1rem, 8.4vw, 10rem);
   font-variant-numeric: tabular-nums;
   font-weight: 900;
   letter-spacing: -0.09em;
@@ -177,6 +312,77 @@ h1 {
   font-size: clamp(4rem, 8.1vw, 9.6rem);
 }
 
+body[data-decimal-format="fraction"] #decimal-clock {
+  font-size: clamp(3.5rem, 7.5vw, 8.4rem);
+}
+
+.decimal-clock-layout {
+  margin: auto 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(112px, 13vw, 160px);
+  gap: clamp(12px, 2vw, 24px);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.decimal-clock-layout .clock-value {
+  margin: 0;
+}
+
+.decimal-analog {
+  aspect-ratio: 1;
+  padding: 8px;
+  border: 1px solid var(--soft-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.18);
+}
+
+.decimal-analog svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.analog-ring {
+  fill: none;
+  stroke: var(--soft-border);
+  stroke-width: 8;
+}
+
+.analog-inner {
+  fill: var(--heading);
+}
+
+.decimal-analog text {
+  fill: var(--muted-strong);
+  font-size: 13px;
+  font-weight: 900;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.analog-hand {
+  stroke-linecap: round;
+  transform-origin: 100px 100px;
+}
+
+.hour-hand {
+  stroke: var(--heading);
+  stroke-width: 7;
+}
+
+.minute-hand {
+  stroke: var(--accent);
+  stroke-width: 4;
+}
+
+.second-hand {
+  stroke: var(--warm);
+  stroke-width: 2.4;
+}
+
 .clock-note {
   margin: 0;
   font-size: clamp(0.74rem, 0.9vw, 0.86rem);
@@ -186,37 +392,57 @@ h1 {
 
 .subtle-note {
   margin-top: 6px;
-  color: rgba(215, 225, 242, 0.58);
+  color: var(--muted);
 }
 
-.day-progress {
+.day-progress,
+.equivalences {
   display: grid;
   grid-template-columns: 0.64fr 1.36fr;
   gap: clamp(14px, 2vw, 24px);
 }
 
+.equivalences {
+  grid-template-columns: 0.58fr 1.42fr;
+}
+
 .day-progress-heading,
-.day-progress-panel {
-  border: 1px solid rgba(255, 255, 255, 0.095);
+.day-progress-panel,
+.equivalences-heading,
+.equivalence-grid article,
+.converter-heading,
+.converter-card,
+.conversion-history {
+  border: 1px solid var(--panel-border);
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.052);
+  background: var(--panel);
   backdrop-filter: blur(18px);
 }
 
-.day-progress-heading {
+.day-progress-heading,
+.equivalences-heading,
+.converter-heading,
+.conversion-history {
   padding: clamp(20px, 2.4vw, 32px);
 }
 
-.day-progress-heading h2 {
+.day-progress-heading h2,
+.equivalences-heading h2,
+.converter-heading h2 {
   max-width: 560px;
   margin: 8px 0 0;
-  color: #ffffff;
+  color: var(--heading);
   font-size: clamp(1.35rem, 2.7vw, 2.3rem);
   letter-spacing: -0.045em;
   line-height: 1;
 }
 
-.day-progress-heading p {
+.equivalences-heading h2 {
+  font-size: clamp(1.25rem, 2.5vw, 2.1rem);
+}
+
+.day-progress-heading p,
+.converter-heading p {
   max-width: 560px;
   margin: 12px 0 0;
   font-size: clamp(0.78rem, 0.95vw, 0.9rem);
@@ -238,14 +464,16 @@ h1 {
 
 .progress-metrics article {
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid var(--panel-border);
   border-radius: 20px;
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--field-bg-soft);
 }
 
-.progress-metrics span {
+.progress-metrics span,
+.equivalence-grid span,
+.conversion-result span {
   display: block;
-  color: rgba(215, 225, 242, 0.66);
+  color: var(--muted-strong);
   font-size: 0.66rem;
   font-weight: 900;
   letter-spacing: 0.14em;
@@ -255,7 +483,7 @@ h1 {
 .progress-metrics strong {
   display: block;
   margin-top: 6px;
-  color: #ffffff;
+  color: var(--heading);
   font-size: clamp(1.55rem, 3vw, 3.2rem);
   font-variant-numeric: tabular-nums;
   font-weight: 900;
@@ -266,9 +494,9 @@ h1 {
 .progress-track {
   height: 18px;
   padding: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--soft-border);
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.30);
+  background: var(--field-bg-soft);
   overflow: hidden;
 }
 
@@ -277,35 +505,8 @@ h1 {
   width: 0%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #8fb3ff, #ffb547);
+  background: linear-gradient(90deg, var(--accent), var(--warm));
   transition: width 180ms linear;
-}
-
-.equivalences {
-  display: grid;
-  grid-template-columns: 0.58fr 1.42fr;
-  gap: clamp(14px, 2vw, 24px);
-}
-
-.equivalences-heading,
-.equivalence-grid article {
-  border: 1px solid rgba(255, 255, 255, 0.095);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.052);
-  backdrop-filter: blur(18px);
-}
-
-.equivalences-heading {
-  padding: clamp(20px, 2.4vw, 32px);
-}
-
-.equivalences-heading h2 {
-  max-width: 560px;
-  margin: 8px 0 0;
-  color: #ffffff;
-  font-size: clamp(1.25rem, 2.5vw, 2.1rem);
-  letter-spacing: -0.045em;
-  line-height: 1;
 }
 
 .equivalence-grid {
@@ -318,19 +519,10 @@ h1 {
   padding: clamp(18px, 2vw, 26px);
 }
 
-.equivalence-grid span {
-  display: block;
-  color: rgba(215, 225, 242, 0.66);
-  font-size: 0.66rem;
-  font-weight: 900;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
 .equivalence-grid strong {
   display: block;
   margin-top: 8px;
-  color: #ffffff;
+  color: var(--heading);
   font-size: clamp(2rem, 3.2vw, 3.7rem);
   font-weight: 900;
   letter-spacing: -0.07em;
@@ -350,66 +542,25 @@ h1 {
   align-items: stretch;
 }
 
-.converter-heading,
-.converter-card {
-  border: 1px solid rgba(255, 255, 255, 0.095);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.058);
-  backdrop-filter: blur(18px);
-}
-
-.converter-heading {
-  padding: clamp(20px, 2.4vw, 32px);
-}
-
 .converter-heading h2 {
   max-width: 520px;
-  margin: 8px 0 0;
-  color: #ffffff;
   font-size: clamp(1.35rem, 2.8vw, 2.45rem);
-  letter-spacing: -0.045em;
-  line-height: 1;
-}
-
-.converter-heading p {
-  max-width: 520px;
-  margin: 12px 0 0;
-  font-size: clamp(0.78rem, 0.95vw, 0.9rem);
-  line-height: 1.58;
 }
 
 .converter-note {
   padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--panel-border);
 }
 
 .rounding-control {
   display: block;
   margin-top: 18px;
-  color: rgba(215, 225, 242, 0.74);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
 }
 
-.rounding-control select {
-  width: 100%;
-  margin-top: 8px;
-  padding: 13px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 16px;
-  background: rgba(0, 0, 0, 0.28);
-  color: #ffffff;
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 800;
-  letter-spacing: 0;
-  outline: none;
-  text-transform: none;
-}
-
-.rounding-control select:focus {
+.preference-grid select:focus,
+.rounding-control select:focus,
+.compact-field input:focus,
+.fields input:focus {
   border-color: rgba(143, 179, 255, 0.82);
   box-shadow: 0 0 0 4px rgba(143, 179, 255, 0.12);
 }
@@ -429,7 +580,7 @@ h1 {
 
 .converter-card-heading h3 {
   margin: 0;
-  color: #ffffff;
+  color: var(--heading);
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   letter-spacing: -0.025em;
 }
@@ -440,35 +591,20 @@ h1 {
   line-height: 1.45;
 }
 
-.compact-field {
-  color: rgba(215, 225, 242, 0.74);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .compact-field input {
   width: 100%;
   margin-top: 7px;
   padding: 15px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--soft-border);
   border-radius: 18px;
-  background: rgba(0, 0, 0, 0.30);
-  color: #ffffff;
-  font: inherit;
+  background: var(--field-bg);
+  color: var(--heading);
   font-size: clamp(1.35rem, 2.4vw, 2rem);
   font-weight: 900;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.035em;
   outline: none;
   text-transform: none;
-}
-
-.compact-field input:focus,
-.fields input:focus {
-  border-color: rgba(143, 179, 255, 0.82);
-  box-shadow: 0 0 0 4px rgba(143, 179, 255, 0.12);
 }
 
 .field-hint {
@@ -483,23 +619,14 @@ h1 {
   gap: 10px;
 }
 
-.fields label {
-  color: rgba(215, 225, 242, 0.74);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .fields input {
   width: 100%;
   margin-top: 7px;
   padding: 13px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  border: 1px solid var(--soft-border);
   border-radius: 16px;
-  background: rgba(0, 0, 0, 0.24);
-  color: #ffffff;
-  font: inherit;
+  background: var(--field-bg-soft);
+  color: var(--heading);
   font-size: clamp(1.1rem, 2vw, 1.45rem);
   font-weight: 800;
   font-variant-numeric: tabular-nums;
@@ -516,13 +643,13 @@ h1 {
 
 .quick-actions button,
 .example-strip button,
-.result-actions button {
-  border: 1px solid rgba(255, 255, 255, 0.12);
+.result-actions button,
+.history-heading button {
+  border: 1px solid var(--soft-border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.07);
-  color: #dce6f7;
+  background: var(--panel-strong);
+  color: var(--text);
   cursor: pointer;
-  font: inherit;
   font-size: 0.74rem;
   font-weight: 800;
   line-height: 1;
@@ -532,9 +659,11 @@ h1 {
 .quick-actions button:hover,
 .example-strip button:hover,
 .result-actions button:hover,
+.history-heading button:hover,
 .quick-actions button:focus-visible,
 .example-strip button:focus-visible,
-.result-actions button:focus-visible {
+.result-actions button:focus-visible,
+.history-heading button:focus-visible {
   border-color: rgba(143, 179, 255, 0.72);
   background: rgba(143, 179, 255, 0.15);
   outline: none;
@@ -542,23 +671,14 @@ h1 {
 
 .conversion-result {
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid var(--panel-border);
   border-radius: 20px;
-  background: rgba(0, 0, 0, 0.24);
-}
-
-.conversion-result span {
-  display: block;
-  color: rgba(215, 225, 242, 0.66);
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  background: var(--field-bg-soft);
 }
 
 .conversion-result output {
   display: block;
-  color: #ffffff;
+  color: var(--heading);
   font-size: clamp(2.3rem, 4vw, 4rem);
   font-weight: 900;
   font-variant-numeric: tabular-nums;
@@ -579,10 +699,6 @@ h1 {
   justify-content: flex-end;
 }
 
-.result-actions button {
-  color: #f5f8ff;
-}
-
 .converter-error {
   min-height: 1.25em;
   margin: -6px 0 0;
@@ -591,17 +707,21 @@ h1 {
   line-height: 1.45;
 }
 
+html[data-theme="light"] .converter-error {
+  color: #9b2d22;
+}
+
 .example-strip {
   grid-column: 1 / -1;
   align-items: center;
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.095);
+  border: 1px solid var(--panel-border);
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.042);
+  background: var(--panel);
 }
 
 .example-strip span {
-  color: rgba(215, 225, 242, 0.68);
+  color: var(--muted-strong);
   font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.16em;
@@ -609,11 +729,64 @@ h1 {
   text-transform: uppercase;
 }
 
+.conversion-history {
+  grid-column: 1 / -1;
+}
+
+.history-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.history-heading h3 {
+  margin: 0;
+  color: var(--heading);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  letter-spacing: -0.025em;
+}
+
+#conversion-history-list {
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  list-style: none;
+}
+
+#conversion-history-list li {
+  padding: 12px 14px;
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  background: var(--field-bg-soft);
+  color: var(--text);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+}
+
+.history-direction,
+.history-time {
+  color: var(--muted-strong);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.history-value {
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+}
+
 .status-message {
   grid-column: 1 / -1;
   min-height: 1.25em;
   margin: -4px 0 0;
-  color: #d7e3ff;
+  color: var(--muted-strong);
   font-size: 0.8rem;
 }
 
@@ -640,16 +813,16 @@ h1 {
 .section-heading,
 .info-card {
   padding: clamp(18px, 2vw, 26px);
-  border: 1px solid rgba(255, 255, 255, 0.095);
+  border: 1px solid var(--panel-border);
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.052);
+  background: var(--panel);
   backdrop-filter: blur(18px);
 }
 
 .section-heading h2,
 .info-card h3 {
   margin: 0;
-  color: #ffffff;
+  color: var(--heading);
 }
 
 .section-heading h2 {
@@ -684,11 +857,11 @@ h1 {
 }
 
 .pros-card {
-  background: linear-gradient(145deg, rgba(49, 111, 89, 0.24), rgba(255, 255, 255, 0.048));
+  background: linear-gradient(145deg, rgba(49, 111, 89, 0.24), var(--panel));
 }
 
 .cons-card {
-  background: linear-gradient(145deg, rgba(126, 63, 54, 0.24), rgba(255, 255, 255, 0.048));
+  background: linear-gradient(145deg, rgba(126, 63, 54, 0.24), var(--panel));
 }
 
 code {
@@ -697,21 +870,16 @@ code {
   max-width: 100%;
   padding: 10px 12px;
   border-radius: 14px;
-  background: rgba(0, 0, 0, 0.35);
-  color: #d7e3ff;
+  background: var(--field-bg-soft);
+  color: var(--text);
   font-size: clamp(0.68rem, 0.82vw, 0.78rem);
   overflow-x: auto;
 }
 
 @media (max-width: 1080px) {
-  .day-progress {
-    grid-template-columns: 1fr;
-  }
-
-  .equivalences {
-    grid-template-columns: 1fr;
-  }
-
+  .preferences,
+  .day-progress,
+  .equivalences,
   .converter {
     grid-template-columns: 1fr;
   }
@@ -731,7 +899,9 @@ code {
     padding: 32px 0;
   }
 
-  .clocks {
+  .clocks,
+  .converter-grid,
+  .preference-grid {
     grid-template-columns: 1fr;
   }
 
@@ -745,27 +915,21 @@ code {
     font-size: clamp(3.45rem, 15.4vw, 6.9rem);
   }
 
-  .details {
+  .decimal-clock-layout {
     grid-template-columns: 1fr;
   }
 
-  .converter-grid {
-    grid-template-columns: 1fr;
+  .decimal-analog {
+    width: min(160px, 48vw);
   }
 
-  .example-strip {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .progress-metrics {
-    grid-template-columns: 1fr;
-  }
-
+  .details,
+  .progress-metrics,
   .equivalence-grid {
     grid-template-columns: 1fr;
   }
 
+  .example-strip,
   .result-line {
     align-items: flex-start;
     flex-direction: column;
@@ -796,6 +960,10 @@ code {
   .clock-value,
   .normal-card .clock-value {
     font-size: clamp(2.8rem, 15.2vw, 4.2rem);
+  }
+
+  body[data-decimal-format="fraction"] #decimal-clock {
+    font-size: clamp(2.55rem, 14vw, 3.6rem);
   }
 
   .fields {

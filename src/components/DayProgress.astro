@@ -1,0 +1,30 @@
+<section class="day-progress" aria-labelledby="day-progress-title">
+  <div class="day-progress-heading">
+    <p class="eyebrow">Avanzamento</p>
+    <h2 id="day-progress-title">Il giorno come valore continuo</h2>
+    <p>
+      La barra mostra quanto del giorno locale e' gia passato. La stessa
+      frazione alimenta sia l'orologio classico sia quello decimale.
+    </p>
+  </div>
+
+  <div class="day-progress-panel">
+    <div class="progress-metrics">
+      <article>
+        <span>Giorno trascorso</span>
+        <strong id="day-percent">--%</strong>
+      </article>
+      <article>
+        <span>Frazione decimale</span>
+        <strong id="day-decimal-fraction">0,00000</strong>
+      </article>
+      <article>
+        <span>Tempo restante</span>
+        <strong id="day-remaining">--:--:--</strong>
+      </article>
+    </div>
+    <div class="progress-track" role="progressbar" aria-label="Percentuale di giornata trascorsa" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="day-progressbar">
+      <span id="day-progress-fill"></span>
+    </div>
+  </div>
+</section>
